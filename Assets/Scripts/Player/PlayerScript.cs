@@ -38,7 +38,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         // Applying constant rightward movement
-        rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocity.y);
+        rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
 
         // Applying Jump
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
@@ -47,7 +47,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         // Play Run animation if grounded
-        if (IsGrounded && animator != null)
+        if (IsGrounded && animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animator.SetTrigger("Run");
         }
