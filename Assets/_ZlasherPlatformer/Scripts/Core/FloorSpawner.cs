@@ -12,11 +12,12 @@ public class FloorSpawner : MonoBehaviour
 
     private float floorWidth = 20f;
 
+    //private void Start()
+    //{
+    //    SpawnFloor();
+    //}
 
-    private void Start()
-    {
-        SpawnFloor();
-    }
+
     private void Update()
     {
         if(timer<spawnRate)
@@ -30,7 +31,7 @@ public class FloorSpawner : MonoBehaviour
         }
     }
         
-    void SpawnFloor()
+    public void SpawnFloor()
     {
         Vector3 spawPosition = new Vector3(transform.position.x + floorWidth, transform.position.y, transform.position.y);
         Instantiate(floor, spawPosition, Quaternion.identity);

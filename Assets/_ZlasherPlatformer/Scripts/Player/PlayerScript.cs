@@ -38,7 +38,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         // Applying constant rightward movement
-        rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocity.y);
 
         // Applying Jump
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
