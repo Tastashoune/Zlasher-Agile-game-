@@ -6,10 +6,13 @@ public class PlayerMovementScript : MonoBehaviour
     public float gravityMultiplier = 1f;
     public float walkSpeed = 2f;
     public float maxWalkSpeed = 10f;
+    public float backwardDuration = 1f; // Duration to move backward
 
     private Rigidbody2D rb;
     private Animator animator;
     private Camera mainCamera;
+    private float backwardTimer = 0f;
+    private bool moveBackward = false;
 
     [SerializeField] private ContactFilter2D groundFilter;
     public bool IsGrounded => rb.IsTouching(groundFilter);
@@ -35,10 +38,32 @@ public class PlayerMovementScript : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             horizontalInput = 1f;
+            moveBackward = false; // Reset the backward movement flag
         }
         else if (Input.GetKey(KeyCode.A))
         {
             horizontalInput = -1f;
+            moveBackward = false; // Reset the backward movement flag
+        }
+        else if (!Input.GetKey(KeyCode.D) && moveBackward)
+        {
+            backwardTimer += Time.deltaTime;
+            if (backwardTimer <= backwardDuration)
+            {
+                horizontalInput = -1f;
+            }
+            else
+            {
+                moveBackward = false; // Stop moving backward after the duration
+                backwardTimer = 0f; // Reset the timer
+            }
+        }
+
+        // Check if the D key was just released
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            moveBackward = true;
+            backwardTimer = 0f; // Start the backward timer
         }
 
         // Applying movement
