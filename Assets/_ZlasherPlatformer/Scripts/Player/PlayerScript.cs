@@ -5,11 +5,11 @@ public class PlayerMovementScript : MonoBehaviour
     public float jumpForce = 5f;
     public float gravityMultiplier = 1f;
     public float walkSpeed = 2f;
-    public float acceleration = 0.1f;
     public float maxWalkSpeed = 10f;
 
     private Rigidbody2D rb;
     private Animator animator;
+    private Camera mainCamera;
 
     [SerializeField] private ContactFilter2D groundFilter;
     public bool IsGrounded => rb.IsTouching(groundFilter);
@@ -18,6 +18,7 @@ public class PlayerMovementScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        mainCamera = Camera.main;
 
         // Play the Run animation when the game starts
         if (animator != null)
@@ -28,17 +29,20 @@ public class PlayerMovementScript : MonoBehaviour
 
     void Update()
     {
-        // Accelerate walk speed over time
-        walkSpeed = Mathf.Min(walkSpeed + acceleration * Time.deltaTime, maxWalkSpeed);
+        float horizontalInput = 0f;
 
         // Adjust walk speed based on input
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.D))
         {
-            walkSpeed = Mathf.Max(walkSpeed - acceleration * Time.deltaTime, 0f); // Slow down but don't go backward
+            horizontalInput = 1f;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            horizontalInput = -1f;
         }
 
-        // Applying constant rightward movement
-        rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocity.y);
+        // Applying movement
+        rb.linearVelocity = new Vector2(horizontalInput * walkSpeed, rb.linearVelocity.y);
 
         // Applying Jump
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
@@ -61,5 +65,11 @@ public class PlayerMovementScript : MonoBehaviour
                 animator.SetTrigger("Attack");
             }
         }
+
+        // Constrain player within camera view
+        Vector3 playerPosition = transform.position;
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(playerPosition);
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.05f, 0.95f); // Adjust these values as needed
+        transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
     }
 }
