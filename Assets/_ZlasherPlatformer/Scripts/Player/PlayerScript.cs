@@ -13,6 +13,8 @@ public class PlayerMovementScript : MonoBehaviour
     private Camera mainCamera;
     private float backwardTimer = 0f;
     private bool moveBackward = false;
+    public AnimationClip runAnimationClip; // Reference to the Run animation clip
+    public AnimationClip walkAnimationClip; // Reference to the Walk animation clip
 
     [SerializeField] private ContactFilter2D groundFilter;
     public bool IsGrounded => rb.IsTouching(groundFilter);
@@ -51,6 +53,11 @@ public class PlayerMovementScript : MonoBehaviour
             if (backwardTimer <= backwardDuration)
             {
                 horizontalInput = -1f;
+                // Play Walk animation if moving backward
+                if (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+                {
+                    animator.SetTrigger("Walk");
+                }
             }
             else
             {
@@ -75,8 +82,8 @@ public class PlayerMovementScript : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        // Play Run animation if grounded
-        if (IsGrounded && animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        // Play Run animation if grounded and not moving backward
+        if (IsGrounded && !moveBackward && animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animator.SetTrigger("Run");
         }

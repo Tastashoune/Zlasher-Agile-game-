@@ -614,6 +614,7 @@ GameObject:
   - component: {fileID: 1501056772}
   - component: {fileID: 1501056774}
   - component: {fileID: 1501056775}
+  - component: {fileID: 1501056776}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -779,9 +780,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 5
   gravityMultiplier: 1
-  walkSpeed: 2
+  walkSpeed: 7
   maxWalkSpeed: 100
-  backwardDuration: 1
+  backwardDuration: 12
+  runAnimationClip: {fileID: 0}
+  walkAnimationClip: {fileID: 0}
   groundFilter:
     useTriggers: 0
     useLayerMask: 0
@@ -818,79 +821,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1001 &1514352278
-PrefabInstance:
+--- !u!114 &1501056776
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 942747281752656030, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_Name
-      value: SwordSlash
-      objectReference: {fileID: 0}
-    - target: {fileID: 1432840638877357760, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 1774413557}
-    - target: {fileID: 1432840638877357760, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: maxChargeTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1432840638877357760, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: minChargeTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1432840638877357760, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: minProjectileSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -16.41449
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.910121
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942364391470486228, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501056767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62ee47d8935e3646b82e1f31f5a5138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 942747281752656030, guid: f6ab8e760f9740a49b9a1e7d843d05f7, type: 3}
+  firePoint: {fileID: 1774413557}
+  minChargeTime: 0.5
+  maxChargeTime: 2
+  minProjectileSpeed: 5
+  maxProjectileSpeed: 20
+  cooldownTime: 1
 --- !u!1 &1606654755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,4 +1288,3 @@ SceneRoots:
   - {fileID: 1314818894}
   - {fileID: 1159531532}
   - {fileID: 340164919}
-  - {fileID: 1514352278}
