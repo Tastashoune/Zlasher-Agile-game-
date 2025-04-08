@@ -99,6 +99,23 @@ public class PlayerMovementScript : MonoBehaviour
             }
         }
 
+        // Check for attack release input
+        if (Input.GetMouseButtonUp(0)) // 0 is the left mouse button
+        {
+            Debug.Log("Player attack released");
+            if (animator != null)
+            {
+                animator.SetTrigger("Attack");
+            }
+        }
+
+        // Stop the attack animation when it's done playing
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            animator.ResetTrigger("Attack");
+            animator.SetTrigger("Run");
+        }
+
         // Constrain player within camera view with adjustable border size
         Vector3 playerPosition = transform.position;
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(playerPosition);
