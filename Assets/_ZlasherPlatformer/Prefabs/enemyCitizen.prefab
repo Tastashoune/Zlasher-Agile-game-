@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8769769369578124302}
   - component: {fileID: 6306533850015226437}
   - component: {fileID: 6636733569215912909}
-  - component: {fileID: 6018503059949395170}
+  - component: {fileID: 457524582752909577}
   m_Layer: 0
   m_Name: enemyCitizen
   m_TagString: Untagged
@@ -154,7 +154,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.013866663, y: 0.12942398}
   m_Size: {x: 1.0184894, y: 1.3004484}
   m_Direction: 0
---- !u!114 &6018503059949395170
+--- !u!114 &457524582752909577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,7 +163,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7750702611120628014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a2a23277048fa4d9f96435c36bb43d, type: 3}
+  m_Script: {fileID: 11500000, guid: c3b09fb8a5faf2c4d9f18e53b2467373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
+  selfwalk: 0

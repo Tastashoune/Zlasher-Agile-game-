@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5495640042315547548}
   - component: {fileID: 2886903432033376383}
   - component: {fileID: 5828722754211613845}
-  - component: {fileID: 2415303524505641709}
+  - component: {fileID: 7471663773562571621}
   m_Layer: 0
   m_Name: enemyPoliceman
   m_TagString: Untagged
@@ -154,7 +154,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2415303524505641709
+--- !u!114 &7471663773562571621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,10 +163,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4669033549878686495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a2a23277048fa4d9f96435c36bb43d, type: 3}
+  m_Script: {fileID: 11500000, guid: 837e2413bc1ff454aa1a494d78edb66d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
   bullet: {fileID: 6752946963688415749, guid: bbdd909b1f4b56949918657723409d67, type: 3}
-  bullet1: 0
-  bullet2: 0
+  selfwalk: 0
+  player: {fileID: 0}
