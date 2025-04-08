@@ -17,10 +17,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private Transform player;
 
+    private float floorAcceleration;
+
     //private void Start()
     //{
     //    floorSpawner.SpawnFloor();
     //}
-
+    private void Update()
+    {
+        
+    }
 
 }

@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10556527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10556528}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &10556528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10556527}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 69.9, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2113371605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &173849017
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +182,8 @@ MonoBehaviour:
   floorSpawner: {fileID: 2113371604}
   moveObjects: {fileID: 2531188620340123363, guid: 444a6cbfb3e531f44826f2060f0bddb1, type: 3}
   EnemySpawner: {fileID: 0}
+  objectPooler: {fileID: 709331507}
+  player: {fileID: 1036664608}
 --- !u!4 &173849019
 Transform:
   m_ObjectHideFlags: 0
@@ -160,7 +193,7 @@ Transform:
   m_GameObject: {fileID: 173849017}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.1, y: -5.6, z: 0.050280213}
+  m_LocalPosition: {x: 14.1, y: 12.8, z: 0.050280213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176,7 +209,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7788164495038352632, guid: 24b0355c384c0b24a88385285835bd07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.12
+      value: -17.2
       objectReference: {fileID: 0}
     - target: {fileID: 7788164495038352632, guid: 24b0355c384c0b24a88385285835bd07, type: 3}
       propertyPath: m_LocalPosition.y
@@ -224,6 +257,65 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24b0355c384c0b24a88385285835bd07, type: 3}
+--- !u!1 &709331507
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 709331509}
+  - component: {fileID: 709331508}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &709331508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709331507}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c615ca2ce3214b48a57b93b8c686013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Floor
+    prefab: {fileID: 2531188620340123363, guid: 444a6cbfb3e531f44826f2060f0bddb1, type: 3}
+    size: 5
+  - tag: Floor2
+    prefab: {fileID: 2531188620340123363, guid: e9caaae02b01e4741a1b4a65392fc413, type: 3}
+    size: 5
+  - tag: Floor3
+    prefab: {fileID: 2531188620340123363, guid: 5ccfb3a67a7307b4bb619ebb6eb9c7f5, type: 3}
+    size: 5
+--- !u!4 &709331509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709331507}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7, y: -5.5, z: -1.4159507}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1036664608 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7788164495038352632, guid: 24b0355c384c0b24a88385285835bd07, type: 3}
+  m_PrefabInstance: {fileID: 500979955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1784508443
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +487,7 @@ MonoBehaviour:
   - {fileID: 2531188620340123363, guid: e9caaae02b01e4741a1b4a65392fc413, type: 3}
   - {fileID: 2531188620340123363, guid: 5ccfb3a67a7307b4bb619ebb6eb9c7f5, type: 3}
   floorWidth: 40
+  spawnPoint: {fileID: 10556528}
 --- !u!4 &2113371605
 Transform:
   m_ObjectHideFlags: 0
@@ -407,7 +500,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 10556528}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -418,3 +512,4 @@ SceneRoots:
   - {fileID: 2113371605}
   - {fileID: 173849019}
   - {fileID: 500979955}
+  - {fileID: 709331509}
