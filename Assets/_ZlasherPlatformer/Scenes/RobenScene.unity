@@ -783,8 +783,9 @@ MonoBehaviour:
   walkSpeed: 7
   maxWalkSpeed: 100
   backwardDuration: 12
-  runAnimationClip: {fileID: 0}
-  walkAnimationClip: {fileID: 0}
+  cameraBorderSize: 0.2
+  runAnimationClip: {fileID: 7400000, guid: 7d357ac9adf6a5045a464a8607b36a53, type: 2}
+  walkAnimationClip: {fileID: 7400000, guid: 5991db6eab810bc4e818344131263695, type: 2}
   groundFilter:
     useTriggers: 0
     useLayerMask: 0
