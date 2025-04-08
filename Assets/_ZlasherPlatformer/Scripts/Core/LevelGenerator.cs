@@ -11,10 +11,16 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private GameObject EnemySpawner;
 
-    private void Start()
-    {
-        floorSpawner.SpawnFloor();
-    }
+    [SerializeField]
+    private GameObject objectPooler;
+
+    [SerializeField]
+    private Transform player;
+
+    //private void Start()
+    //{
+    //    floorSpawner.SpawnFloor();
+    //}
 
 
 }

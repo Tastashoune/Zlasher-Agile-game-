@@ -372,7 +372,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PolicemanShoot_0: 8341106169833571790
+      PolicemanShoot_1: -7580599986886500397
+      PolicemanShoot_2: 6924191164601969420
+      PolicemanShoot_3: 7875625106542201422
+      PolicemanShoot_4: -6842393527718209258
+      PolicemanShoot_5: -5572944640231108873
+      PolicemanShoot_6: 6329401790571273547
+      PolicemanShoot_7: -1982730381334925569
+      PolicemanShoot_8: 4184408364972351684
+      PolicemanShoot_9: -838141115663918588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
