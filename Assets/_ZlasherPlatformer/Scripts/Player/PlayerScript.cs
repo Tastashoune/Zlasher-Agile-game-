@@ -7,6 +7,7 @@ public class PlayerMovementScript : MonoBehaviour
     public float walkSpeed = 2f;
     public float maxWalkSpeed = 10f;
     public float backwardDuration = 1f; // Duration to move backward
+    public float cameraBorderSize = 0.1f; // Size of the camera border
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -98,10 +99,10 @@ public class PlayerMovementScript : MonoBehaviour
             }
         }
 
-        // Constrain player within camera view
+        // Constrain player within camera view with adjustable border size
         Vector3 playerPosition = transform.position;
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(playerPosition);
-        viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.05f, 0.95f); // Adjust these values as needed
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, cameraBorderSize, 1f - cameraBorderSize); // Adjust these values as needed
         transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
     }
 }
