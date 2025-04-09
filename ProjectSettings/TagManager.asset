@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - groundLayer
+  - LevelGenerator
+  - Floor
   layers:
   - Default
   - TransparentFX
