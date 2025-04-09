@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 using MyInterface;
 
-public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
+public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
     public int maxHealth = 50;          // Santé maximale de l'ennemi
 
     [Header("Bullet prefab")]
     public GameObject bullet;           // prefab du projectile
+    private RaycastHit2D hit;
+
+    private bool isFirstShoot = true;
+
+    private float timeElapsed;
+    [SerializeField]
+    private float attackDelay;
 
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
 
-    [Header("Player gameobject")]
-    public GameObject player;
-
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    private EnemyType currentEnemy;
+    //private EnemyType currentEnemy;
     private Rigidbody2D enemyBody;
     private float moveSpeed;
 
@@ -29,8 +33,9 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
 
     void Start()
     {
+        isFirstShoot = true;
         // infos sur l'ennemi
-        currentEnemy = EnemyType.Policeman;
+        //currentEnemy = EnemyType.Policeman;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Walking;  // "marche" par défaut
         moveSpeed = -2.0f;
@@ -42,17 +47,18 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
         screenWidth = screenLimitRight - screenLimitLeft;
+
+        timeElapsed = 0f;
     }
     void Update()
     {
-        float currentPosX = transform.position.x; // enemyBody.position.x;
-
         // switch ACTIONS/COMPORTEMENTS
         switch (currentState)
         {
             case EnemyState.Walking:
                 if (enemyBody != null && selfwalk)
                 {
+                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -60,16 +66,46 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
                         enemyBody.linearVelocity = direction;
                     }
                 }
-                break;
+
+                // test du tag Player pour ne pas tirer sur le décor en cas de détection
+                if(HasPlayerInFront())
+                {
+                    //Debug.Log(hit.collider);
+                    currentState = EnemyState.Attacking;
+                }
+            break;
 
             case EnemyState.Attacking:
-                Shoot();
-                currentState = EnemyState.Walking;
-                break;
+
+                if (timeElapsed > attackDelay || isFirstShoot)
+                {
+                    Shoot();
+                    isFirstShoot = false;
+                    timeElapsed = 0f;
+                }
+                timeElapsed += Time.deltaTime;
+                //Debug.Log(timeElapsed);
+                
+                // test du tag Player pour ne pas tirer sur le décor en cas de détection
+                if (!HasPlayerInFront())
+                {
+                    Debug.Log("LOL");
+                    currentState = EnemyState.Walking;
+                    isFirstShoot = true;   
+                }
+            break;
 
             default:
-                break;
+            break;
         }
+    }
+    public bool HasPlayerInFront()
+    {
+        // test et détection joueur
+        // dessin du laser devant l'ennemi (pour tester le raycast)
+        // Debug.DrawRay ...
+        Vector2 origine = new Vector2(transform.position.x - spriteSize, transform.position.y);
+        return Physics2D.Raycast(origine, Vector2.left, screenWidth, LayerMask.GetMask("Player"));
     }
     public void TakeDamage(int damage)
     {
@@ -96,5 +132,23 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
     public void Die()
     {
         Destroy(gameObject);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (selfwalk)
+            return;
+
+        // auto friction par rapport au sol
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            transform.SetParent(collision.gameObject.transform);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Vector2 origine = new Vector2(transform.position.x - spriteSize, transform.position.y);
+        Debug.DrawLine(origine, Vector2.up * origine + Vector2.left * screenWidth);
     }
 }

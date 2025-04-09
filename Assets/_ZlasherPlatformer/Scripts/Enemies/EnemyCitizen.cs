@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using MyInterface;
+using System.Collections;
 
-public class EnemyCitizen : MonoBehaviour, IEnemyInterface
+public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
     public int maxHealth = 50;          // Santé maximale de l'ennemi
@@ -11,7 +12,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    private EnemyType currentEnemy;
+    //private EnemyType currentEnemy;
     private Rigidbody2D enemyBody;
     private float moveSpeed;
 
@@ -24,7 +25,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
     void Start()
     {
         // infos sur l'ennemi
-        currentEnemy = EnemyType.Citizen;
+        //currentEnemy = EnemyType.Citizen;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Walking;  // "marche" par défaut
         moveSpeed = -2.0f;
@@ -39,14 +40,13 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
     }
     void Update()
     {
-        float currentPosX = transform.position.x; // enemyBody.position.x;
-
         // switch ACTIONS/COMPORTEMENTS
         switch (currentState)
         {
             case EnemyState.Walking:
                 if (enemyBody != null && selfwalk)
                 {
+                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -54,10 +54,10 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
                         enemyBody.linearVelocity = direction;
                     }
                 }
-                break;
+            break;
 
             default:
-                break;
+            break;
         }
     }
     public void TakeDamage(int damage)
@@ -75,6 +75,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
     public void Shoot()
     {
         // le citizen ne shoot pas
+        //yield return new WaitForSeconds(2f);
     }
     public void Fly()
     {
@@ -83,5 +84,15 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface
     public void Die()
     {
         Destroy(gameObject);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (selfwalk)
+            return;
+
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            transform.SetParent(collision.gameObject.transform);            
+        }
     }
 }

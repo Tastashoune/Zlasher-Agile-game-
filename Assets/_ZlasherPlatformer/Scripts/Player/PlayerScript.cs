@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovementScript : MonoBehaviour
+public class PlayerMovementScript : MonoBehaviour, IDamageable
 {
     public float jumpForce = 5f;
     public float gravityMultiplier = 1f;
@@ -121,5 +121,10 @@ public class PlayerMovementScript : MonoBehaviour
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(playerPosition);
         viewportPosition.x = Mathf.Clamp(viewportPosition.x, cameraBorderSize, 1f - cameraBorderSize); // Adjust these values as needed
         transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Debug.Log("receive damage: " + damage);
     }
 }

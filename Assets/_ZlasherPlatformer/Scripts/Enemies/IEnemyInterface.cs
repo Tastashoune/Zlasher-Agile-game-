@@ -1,3 +1,4 @@
+
 namespace MyInterface
 {
     public enum EnemyType
@@ -21,7 +22,6 @@ namespace MyInterface
     }
     public interface IEnemyInterface
     {
-        void TakeDamage(int damage);
         void Shoot();
         void Fly();
         void Die();

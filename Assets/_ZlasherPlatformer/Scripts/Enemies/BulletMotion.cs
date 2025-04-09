@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class BulletMotion : MonoBehaviour
 {
-
     private Rigidbody2D bulletBody;
     private float moveSpeed;
-
     private float screenLimitLeft;
 
     void Start()
@@ -13,7 +11,7 @@ public class BulletMotion : MonoBehaviour
         Camera mainCamera = Camera.main;
 
         // infos sur le projectile
-        moveSpeed = -4.0f;
+        moveSpeed = -5.0f;
         bulletBody = GetComponent<Rigidbody2D>();
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
     }
@@ -39,6 +37,19 @@ public class BulletMotion : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         // collision avec le player
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            var player = collision.gameObject.GetComponent<IDamageable>();
+            if (player != null)
+            {
+                player.TakeDamage(10);
+            }
+            else
+            {
+                Debug.LogError("Player is not IDamageable");
+            }
 
+            Destroy(gameObject);
+        }
     }
 }
