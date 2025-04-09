@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
 using MyInterface;
-using System.Collections;
 
 public class EnemyUfo : MonoBehaviour, IEnemyInterface
 {
     [Header("Health setting")]
     public int maxHealth = 50;          // Santé maximale de l'ennemi
 
-    [Header("Self walk (false by default)")]
-    public bool selfwalk = false;
-
-    [Header("Player gameobject")]
-    public GameObject player;
+    [Header("Player gameobject/transform")]
+    public Transform player;
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
@@ -31,7 +27,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
         //currentEnemy = EnemyType.Ufo;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Flying;   // "vol" par défaut
-        moveSpeed = -2.0f;
+        moveSpeed = .5f;
         enemyBody = GetComponent<Rigidbody2D>();
         spriteSize = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
 
@@ -43,12 +39,13 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
     }
     void Update()
     {
-        float currentPosX = transform.position.x; // enemyBody.position.x;
-
         // switch ACTIONS/COMPORTEMENTS
         switch (currentState)
         {
             case EnemyState.Flying:
+                Vector3 currentPosition = transform.position;
+                Vector3 targetPosition = player.position;
+                transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
             break;
 
             default:
@@ -67,10 +64,27 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // collision avec le joueur
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var player = collision.gameObject.GetComponent<IDamageable>();
+            if (player != null)
+            {
+                Debug.Log("Player hit");
+                player.TakeDamage(10);
+            }
+            else
+            {
+                Debug.LogError("Player is not IDamageable");
+            }
+        }
+    }
+
     public void Shoot()
     {
         // le ufo ne shoot pas
-        //yield return new WaitForSeconds(2f);
     }
     public void Fly()
     {

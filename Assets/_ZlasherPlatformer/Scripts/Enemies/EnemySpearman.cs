@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-using System.Collections;
 public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
@@ -88,9 +87,25 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         if (selfwalk)
             return;
 
+        // attachement au sol dès qu'il le touche
         if (collision.gameObject.CompareTag("Ground"))
         {
             transform.SetParent(collision.gameObject.transform);
+        }
+
+        // collision avec le joueur
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var player = collision.gameObject.GetComponent<IDamageable>();
+            if (player != null)
+            {
+                Debug.Log("Player hit");
+                player.TakeDamage(10);
+            }
+            else
+            {
+                Debug.LogError("Player is not IDamageable");
+            }
         }
     }
 }
