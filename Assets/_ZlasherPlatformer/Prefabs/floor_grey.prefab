@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1887974124684831492}
   m_Layer: 0
   m_Name: floor_grey
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  deadZone: -100
+  deadZone: -50
 --- !u!212 &3036717190629660891
 SpriteRenderer:
   m_ObjectHideFlags: 0

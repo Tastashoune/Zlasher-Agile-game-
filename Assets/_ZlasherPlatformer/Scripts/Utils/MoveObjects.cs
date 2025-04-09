@@ -3,10 +3,10 @@ using UnityEngine;
 public class MoveObjects : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed;
+    public float moveSpeed;
 
-    [SerializeField]
-    private float deadZone = 0;
+    //[SerializeField]
+    //private float deadZone = 0;
 
     private LevelGenerator levelGenerator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,9 +19,9 @@ public class MoveObjects : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.left * (Time.deltaTime * moveSpeed);
-        if (transform.position.x < deadZone)
-        {
-            Destroy(gameObject);
-        }
+        //if (transform.position.x < deadZone)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 }

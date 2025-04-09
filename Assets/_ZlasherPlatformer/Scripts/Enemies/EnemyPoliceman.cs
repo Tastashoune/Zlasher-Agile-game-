@@ -17,7 +17,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    private EnemyType currentEnemy;
+    //private EnemyType currentEnemy;
     private Rigidbody2D enemyBody;
     private float moveSpeed;
 
@@ -30,7 +30,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface
     void Start()
     {
         // infos sur l'ennemi
-        currentEnemy = EnemyType.Policeman;
+        //currentEnemy = EnemyType.Policeman;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Walking;  // "marche" par défaut
         moveSpeed = -2.0f;

@@ -39,20 +39,20 @@ public class FloorSpawner : MonoBehaviour
 
     private void Update()
     {
-            //lastFloorPosition.x = transform.position.x+floorWidth;
+        lastFloorPosition.x = transform.position.x + floorWidth;
 
-            if (CanSpawnFloor())
+        if (CanSpawnFloor())
         {
             SpawnFloor();
         }
-       
+
     }
 
 
     private bool CanSpawnFloor()
     {
 
-        if (spawnedFloors[0].transform.position.x < -1.1*floorWidth)
+        if (spawnedFloors[0].transform.position.x < -1.1 * floorWidth)
             return true;
         return false;
     }
