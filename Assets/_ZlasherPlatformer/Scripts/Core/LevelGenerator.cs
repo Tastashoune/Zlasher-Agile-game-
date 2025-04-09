@@ -46,7 +46,8 @@ public class LevelGenerator : MonoBehaviour
                 floorPool.gameObject.SetActive(false);
                 MoveObjectsPool.Add(floorPool);
             }
-        }  
+        }
+        // TODO: Expand on logic more if we have more time
 
 
     }
