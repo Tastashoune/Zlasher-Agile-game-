@@ -37,13 +37,16 @@ public class LevelGenerator : MonoBehaviour
     private void Awake()
     {
         lastFloorPosition = transform.position;
-
-        for (int i = 0; i < initialFloorCount; i++)
+        int initQt = 3;
+        for(int j = 0; j < initQt; j++)
         {
-            MoveObjects floorPool = Instantiate(floor[Random.Range(0, floor.Length)], transform).GetComponent<MoveObjects>();
-            floorPool.gameObject.SetActive(false);
-            MoveObjectsPool.Add(floorPool);
-        }
+            for (int i = 0; i < floor.Length; i++)
+            {
+                MoveObjects floorPool = Instantiate(floor[i], transform).GetComponent<MoveObjects>();
+                floorPool.gameObject.SetActive(false);
+                MoveObjectsPool.Add(floorPool);
+            }
+        }  
 
 
     }
