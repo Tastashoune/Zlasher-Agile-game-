@@ -15,8 +15,6 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     private Camera mainCamera;
     private float backwardTimer = 0f;
     private bool moveBackward = false;
-    public AnimationClip runAnimationClip; // Reference to the Run animation clip
-    public AnimationClip walkAnimationClip; // Reference to the Walk animation clip
 
     [SerializeField] private ContactFilter2D groundFilter;
     private float attackTimer;
@@ -24,12 +22,30 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     private bool isAttacking;
 
     public bool IsGrounded => rb.IsTouching(groundFilter);
+    public int maxHealth = 100;
+    private int currentHealth;
+
+    public PlayrHealtBar healthBar; // Reference to the health bar script
+
+    // Lose health over time
+    public float healthLossInterval = 1f; // Time interval in seconds to lose health
+    public int healthLossAmount = 5; // Amount of health lost per interval
+    private float healthLossTimer = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
+
+        // Initialize health
+        currentHealth = maxHealth;
+
+        // Initialize the health bar
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+        }
 
         // Play the Run animation when the game starts
         if (animator != null)
@@ -40,9 +56,17 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
 
     void Update()
     {
+        HandleMovement();
+        HandleJump();
+        HandleAttack();
+        ConstrainPlayerWithinCamera();
+        HandleHealthLossOverTime();
+    }
+
+    private void HandleMovement()
+    {
         float horizontalInput = 0f;
 
-        // Adjust walk speed based on input
         if (Input.GetKey(KeyCode.D))
         {
             horizontalInput = 1f;
@@ -59,7 +83,6 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
             if (backwardTimer <= backwardDuration)
             {
                 horizontalInput = -1f;
-                // Play Walk animation if moving backward
                 if (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
                 {
                     animator.SetTrigger("Walk");
@@ -67,72 +90,95 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
             }
             else
             {
-                moveBackward = false; // Stop moving backward after the duration
+                moveBackward = false;
                 backwardTimer = 0f; // Reset the timer
             }
         }
 
-        // Check if the D key was just released
         if (Input.GetKeyUp(KeyCode.D))
         {
             moveBackward = true;
             backwardTimer = 0f; // Start the backward timer
         }
 
-        // Applying movement
         rb.linearVelocity = new Vector2(horizontalInput * walkSpeed, rb.linearVelocity.y);
 
-        // Applying Jump
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-
-        // Play Run animation if grounded and not moving backward
         if (IsGrounded && !moveBackward && animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animator.SetTrigger("Run");
         }
+    }
 
-        // Check for attack input
+    private void HandleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    private void HandleAttack()
+    {
         if (Input.GetMouseButtonDown(0)) // 0 is the left mouse button
         {
             isAttacking = true;
             attackTimer = 0f; // Reset the attack timer
         }
 
-        if(isAttacking)
+        if (isAttacking)
         {
             attackTimer += Time.deltaTime;
         }
 
-        // Check for attack release input
-        if (Input.GetMouseButtonUp(0)  && attackTimer < attackTimeout) // 0 is the left mouse button
+        if (Input.GetMouseButtonUp(0) && attackTimer < attackTimeout)
         {
             isAttacking = false;
-            Debug.Log("Player attack released");
             if (animator != null)
             {
                 animator.SetTrigger("Attack");
             }
         }
 
-        // Stop the attack animation when it's done playing
         if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             animator.ResetTrigger("Attack");
             animator.SetTrigger("Run");
         }
+    }
 
-        // Constrain player within camera view with adjustable border size
+    private void ConstrainPlayerWithinCamera()
+    {
         Vector3 playerPosition = transform.position;
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(playerPosition);
-        viewportPosition.x = Mathf.Clamp(viewportPosition.x, cameraBorderSize, 1f - cameraBorderSize); // Adjust these values as needed
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, cameraBorderSize, 1f - cameraBorderSize);
         transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
+    }
+
+    private void HandleHealthLossOverTime()
+    {
+        healthLossTimer += Time.deltaTime;
+        if (healthLossTimer >= healthLossInterval)
+        {
+            TakeDamage(healthLossAmount);
+            healthLossTimer = 0f; // Reset the timer
+        }
     }
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("receive damage: " + damage);
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(currentHealth, maxHealth);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Debug.Log("Player is dead!");
+            // Add death logic here
+            gameObject.SetActive(false); // Deactivate the player object
+        }
     }
 }
