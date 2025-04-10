@@ -14,7 +14,13 @@ public class SwordSlashScript : MonoBehaviour
     private bool isCharging;
     private bool canFire;
     private float cooldownTimer;
+    private Animator animator;
 
+    private void Awake()
+    {
+
+        animator = GetComponent<Animator>();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -72,6 +78,10 @@ public class SwordSlashScript : MonoBehaviour
     {
         if (isCharging && chargeTime >= minChargeTime)
         {
+            if (animator != null)
+            {
+                animator.SetTrigger("Attack");
+            }
             isCharging = false;
             canFire = false;
             float chargeRatio = (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime);

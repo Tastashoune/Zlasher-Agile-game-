@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bubbly healthbar_0: -3560084170696778333
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

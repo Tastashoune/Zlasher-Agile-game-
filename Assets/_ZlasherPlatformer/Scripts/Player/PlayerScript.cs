@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovementScript : MonoBehaviour, IDamageable
@@ -18,6 +19,10 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     public AnimationClip walkAnimationClip; // Reference to the Walk animation clip
 
     [SerializeField] private ContactFilter2D groundFilter;
+    private float attackTimer;
+    [SerializeField] private float attackTimeout = 0.5f;
+    private bool isAttacking;
+
     public bool IsGrounded => rb.IsTouching(groundFilter);
 
     void Start()
@@ -92,16 +97,19 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         // Check for attack input
         if (Input.GetMouseButtonDown(0)) // 0 is the left mouse button
         {
-            Debug.Log("Player attacking");
-            if (animator != null)
-            {
-                animator.SetTrigger("Attack");
-            }
+            isAttacking = true;
+            attackTimer = 0f; // Reset the attack timer
+        }
+
+        if(isAttacking)
+        {
+            attackTimer += Time.deltaTime;
         }
 
         // Check for attack release input
-        if (Input.GetMouseButtonUp(0)) // 0 is the left mouse button
+        if (Input.GetMouseButtonUp(0)  && attackTimer < attackTimeout) // 0 is the left mouse button
         {
+            isAttacking = false;
             Debug.Log("Player attack released");
             if (animator != null)
             {
