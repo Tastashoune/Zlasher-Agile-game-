@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-
 public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
@@ -8,7 +7,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
     [Header("Bullet prefab")]
     public GameObject bullet;           // prefab du projectile
-    private RaycastHit2D hit;
+    //private RaycastHit2D hit;
 
     private bool isFirstShoot = true;
 
@@ -56,9 +55,9 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         switch (currentState)
         {
             case EnemyState.Walking:
+                float currentPosX = transform.position.x; // enemyBody.position.x;
                 if (enemyBody != null && selfwalk)
                 {
-                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -67,8 +66,12 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
                     }
                 }
 
+                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
+                if (currentPosX < screenLimitLeft)
+                    Die();
+
                 // test du tag Player pour ne pas tirer sur le décor en cas de détection
-                if(HasPlayerInFront())
+                if (HasPlayerInFront())
                 {
                     //Debug.Log(hit.collider);
                     currentState = EnemyState.Attacking;
@@ -131,7 +134,10 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
-        Destroy(gameObject);
+        // à faire : pop de la tête collectable (bonus point de vie)
+
+        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
+        transform.position = new Vector3(screenLimitRight, transform.position.y);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -139,7 +145,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
             return;
 
         // auto friction par rapport au sol
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Floor"))
         {
             transform.SetParent(collision.gameObject.transform);
         }
