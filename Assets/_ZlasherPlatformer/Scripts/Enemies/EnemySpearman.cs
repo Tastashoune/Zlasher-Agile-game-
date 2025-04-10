@@ -42,10 +42,9 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         switch (currentState)
         {
             case EnemyState.Walking:
-                float currentPosX = transform.position.x; // enemyBody.position.x;
-
                 if (enemyBody != null && selfwalk)
                 {
+                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -53,12 +52,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
                         enemyBody.linearVelocity = direction;
                     }
                 }
-
-                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
-                if (currentPosX < screenLimitLeft)
-                    Die();
-
-                break;
+            break;
 
             default:
             break;
@@ -86,10 +80,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
-        // à faire : pop de la tête collectable (bonus point de vie)
-
-        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
-        transform.position = new Vector3(screenLimitRight, transform.position.y);
+        Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -97,7 +88,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
             return;
 
         // attachement au sol dès qu'il le touche
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             transform.SetParent(collision.gameObject.transform);
         }
