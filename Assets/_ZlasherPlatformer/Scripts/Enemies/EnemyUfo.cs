@@ -5,8 +5,8 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
     [Header("Health setting")]
     public int maxHealth = 50;          // Santé maximale de l'ennemi
 
-    [Header("Player gameobject/transform")]
-    public Transform player;
+    //[Header("Player gameobject")]
+    private GameObject player;
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
@@ -35,6 +35,9 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
         screenWidth = screenLimitRight - screenLimitLeft;
+
+        // récupération du player
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     void Update()
     {
@@ -43,7 +46,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
         {
             case EnemyState.Flying:
                 Vector3 currentPosition = transform.position;
-                Vector3 targetPosition = player.position;
+                Vector3 targetPosition = player.transform.position;
                 transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
             break;
 
@@ -73,6 +76,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
             {
                 Debug.Log("Player hit");
                 player.TakeDamage(10);
+                Die();
             }
             else
             {
@@ -91,6 +95,10 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
     }
     public void Die()
     {
-        Destroy(gameObject);
+        // à faire : pop de la tête collectable (bonus point de vie)
+
+        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
+        float screenLimitTop=0f;
+        transform.position = new Vector3(screenLimitRight, screenLimitTop);
     }
 }

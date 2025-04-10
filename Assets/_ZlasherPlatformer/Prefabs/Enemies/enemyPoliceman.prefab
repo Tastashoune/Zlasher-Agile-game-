@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5828722754211613845}
   - component: {fileID: 7471663773562571621}
   m_Layer: 0
-  m_Name: _enemyPoliceman
+  m_Name: enemyPoliceman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

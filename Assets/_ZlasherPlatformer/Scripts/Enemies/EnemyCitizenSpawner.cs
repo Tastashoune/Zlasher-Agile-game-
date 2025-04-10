@@ -26,12 +26,15 @@ public class EnemyCitizenSpawner : MonoBehaviour
     }
     public IEnumerator EnemyPop()
     {
-        Vector3 posCitizen = new Vector3(screenLimitRight, screenHeight/2, 0f);
+        // on récupère la sprite size pour placer l'ennemi en dehors de l'écran lors de sa chute
+        float spriteSize = enemyCitizen.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+        Vector3 posCitizen = new Vector3(screenLimitRight+spriteSize/2, screenHeight/2, 0f);
 
         for(int a=0; a<nbMaxCitizen; a++)
         {
+            float randomDelay = Random.Range(.4f, 1f);
             Instantiate(enemyCitizen, posCitizen, Quaternion.identity);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(randomDelay);
         }
     }
 }
