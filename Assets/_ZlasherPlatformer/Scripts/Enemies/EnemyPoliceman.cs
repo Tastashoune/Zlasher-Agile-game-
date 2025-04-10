@@ -7,6 +7,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
     [Header("Bullet prefab")]
     public GameObject bullet;           // prefab du projectile
+    public float bulletOffsetY;
     //private RaycastHit2D hit;
 
     private bool isFirstShoot = true;
@@ -92,7 +93,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
                 // test du tag Player pour ne pas tirer sur le décor en cas de détection
                 if (!HasPlayerInFront())
                 {
-                    Debug.Log("LOL");
+                    //Debug.Log("LOL");
                     currentState = EnemyState.Walking;
                     isFirstShoot = true;   
                 }
@@ -124,7 +125,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
     public void Shoot()
     {
-        Vector3 bulletPosition = new Vector3(transform.position.x - spriteSize, transform.position.y, transform.position.z);
+        Vector3 bulletPosition = new Vector3(transform.position.x - spriteSize, transform.position.y+ bulletOffsetY, transform.position.z);
         // prise en compte de la rotation du prefab projectile (mais ne sera pas nécessaire lorsque l'asset sera prêt)
         Instantiate(bullet, bulletPosition, bullet.transform.rotation);
     }
