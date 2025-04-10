@@ -1699,7 +1699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3baa6ed05e380344a94a1c7d856c8583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 0}
   talkingNPCText: {fileID: 0}
@@ -3047,7 +3046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce7e59a8a81ede4f97cc8ba90eefef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1028227035}
 --- !u!4 &1952426912
 Transform:
   m_ObjectHideFlags: 0
@@ -3301,7 +3299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2330222132061656567, guid: 2c9a16e6a2f3c204bb888d5a7899ce1f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6709507653368399040, guid: 2c9a16e6a2f3c204bb888d5a7899ce1f, type: 3}
       propertyPath: m_LocalPosition.x
