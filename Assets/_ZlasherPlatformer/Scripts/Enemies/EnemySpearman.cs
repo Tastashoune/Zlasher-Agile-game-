@@ -42,9 +42,10 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         switch (currentState)
         {
             case EnemyState.Walking:
+                float currentPosX = transform.position.x; // enemyBody.position.x;
+
                 if (enemyBody != null && selfwalk)
                 {
-                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -52,7 +53,12 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
                         enemyBody.linearVelocity = direction;
                     }
                 }
-            break;
+
+                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
+                if (currentPosX < screenLimitLeft)
+                    Die();
+
+                break;
 
             default:
             break;
