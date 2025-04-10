@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3785325890045590380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4729492278808763155}
+  - component: {fileID: 2002454329775515476}
+  m_Layer: 0
+  m_Name: EnemiesOtherSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4729492278808763155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3785325890045590380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7851385, y: 5.091944, z: -0.21524604}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2002454329775515476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3785325890045590380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27400853c53759e479da198d19a97b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nbMaxEnemies: 10
+  enemyPoliceman: {fileID: 4669033549878686495, guid: 6e107ae8c0248d24a9ae0fb584eab9ef, type: 3}
+  enemySpearman: {fileID: 9021139369125998498, guid: 6c07a8154a7e9564382804a4f8d43a97, type: 3}
+  enemyUfo: {fileID: 1249783483042896764, guid: 8dba432d27f4b9f4f87fcee6ae42dd44, type: 3}

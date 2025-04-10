@@ -49,6 +49,7 @@ public class BulletMotion : MonoBehaviour
                 Debug.LogError("Player is not IDamageable");
             }
 
+            // destruction de la balle (bullet)
             Destroy(gameObject);
         }
     }
