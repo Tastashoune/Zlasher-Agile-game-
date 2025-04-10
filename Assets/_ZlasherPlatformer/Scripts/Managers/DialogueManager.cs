@@ -1,7 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+
 
 public class DialogueManager : ContextManager
 {
