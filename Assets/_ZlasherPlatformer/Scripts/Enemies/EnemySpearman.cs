@@ -88,7 +88,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
             return;
 
         // attachement au sol dès qu'il le touche
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Floor"))
         {
             transform.SetParent(collision.gameObject.transform);
         }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-
 public class EnemyUfo : MonoBehaviour, IEnemyInterface
 {
     [Header("Health setting")]

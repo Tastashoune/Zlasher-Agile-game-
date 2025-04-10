@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-using System.Collections;
 
 public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
 {
@@ -90,7 +89,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         if (selfwalk)
             return;
 
-        if(collision.gameObject.CompareTag("Ground"))
+        if(collision.gameObject.CompareTag("Floor"))
         {
             transform.SetParent(collision.gameObject.transform);            
         }

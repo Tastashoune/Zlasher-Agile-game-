@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-
 public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
@@ -139,7 +138,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
             return;
 
         // auto friction par rapport au sol
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Floor"))
         {
             transform.SetParent(collision.gameObject.transform);
         }
