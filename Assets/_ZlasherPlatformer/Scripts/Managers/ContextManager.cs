@@ -7,7 +7,7 @@ public class ContextManager : MonoBehaviour
 
 
     public static ContextManager Instance { get; private set; }
-
+     
 
     private void Awake()
     {

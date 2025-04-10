@@ -82,7 +82,7 @@ public class DialogueManager : ContextManager
         {
             EndDialogue();
             return;
-        }
+        } 
     }
 
 
