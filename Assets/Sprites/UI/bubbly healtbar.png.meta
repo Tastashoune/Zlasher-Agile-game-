@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 99fda0d69bf490b458f10dac4a56f07f
+guid: bfa1dfb257832004889835c3ee6814d9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3465286685962602723
-    second: 6_0
+      213: 2338632090672239307
+    second: bubbly healtbar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 6_0
+      name: bubbly healtbar_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 576
-        height: 324
+        width: 128
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e801b981eb271030800000000000000
-      internalID: 3465286685962602723
+      spriteID: bc219d0fe7d747020800000000000000
+      internalID: 2338632090672239307
       vertices: []
       indices: 
       edges: []

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using MyInterface;
+using System.Collections;
 
 public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
 {
@@ -43,10 +44,9 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         switch (currentState)
         {
             case EnemyState.Walking:
-                float currentPosX = transform.position.x; // enemyBody.position.x;
-
                 if (enemyBody != null && selfwalk)
                 {
+                    float currentPosX = transform.position.x; // enemyBody.position.x;
                     // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
@@ -54,10 +54,6 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
                         enemyBody.linearVelocity = direction;
                     }
                 }
-
-                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
-                if (currentPosX < screenLimitLeft)
-                    Die();
             break;
 
             default:
@@ -79,6 +75,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     public void Shoot()
     {
         // le citizen ne shoot pas
+        //yield return new WaitForSeconds(2f);
     }
     public void Fly()
     {
@@ -86,18 +83,14 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
-        //Destroy(gameObject);
-        // à faire : pop de la tête collectable (bonus point de vie)
-
-        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
-        transform.position = new Vector3(screenLimitRight, transform.position.y);
+        Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (selfwalk)
             return;
 
-        if(collision.gameObject.CompareTag("Floor"))
+        if(collision.gameObject.CompareTag("Ground"))
         {
             transform.SetParent(collision.gameObject.transform);            
         }
