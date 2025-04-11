@@ -202,6 +202,8 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   healthLossInterval: 1
   healthLossAmount: 5
+  attackRange: {fileID: 0}
+  attackDamage: 10
 --- !u!95 &7751490404763624018
 Animator:
   serializedVersion: 7
