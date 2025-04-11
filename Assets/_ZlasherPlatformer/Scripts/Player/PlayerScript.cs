@@ -32,6 +32,11 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     public int healthLossAmount = 5; // Amount of health lost per interval
     private float healthLossTimer = 0f;
 
+    [Header("Attack Settings")]
+    public GameObject attackRange; // Reference to the child GameObject for attack range
+    public int attackDamage = 10; // Damage dealt by the normal attack
+    public float attackRangeRadius = 1.5f; // Radius of the attack range
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -146,6 +151,25 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         }
     }
 
+    public void PerformAttack()
+    {
+        // Get all colliders within the attack range
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRangeRadius, LayerMask.GetMask("Enemy"));
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            // Ensure the detected object is not the player itself
+            if (enemy.gameObject == gameObject) continue;
+
+            // Check if the object implements IDamageable
+            IDamageable damageable = enemy.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(attackDamage); // Deal damage to the enemy
+            }
+        }
+    }
+
     private void ConstrainPlayerWithinCamera()
     {
         Vector3 playerPosition = transform.position;
@@ -180,5 +204,12 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
             // Add death logic here
             gameObject.SetActive(false); // Deactivate the player object
         }
+    }
+
+    // Optional: Visualize the attack range in the editor
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRangeRadius); // Attack range
     }
 }

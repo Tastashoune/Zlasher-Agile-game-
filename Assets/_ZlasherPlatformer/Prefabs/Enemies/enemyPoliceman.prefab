@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2886903432033376383}
   - component: {fileID: 5828722754211613845}
   - component: {fileID: 7471663773562571621}
-  m_Layer: 0
+  - component: {fileID: 981374733299155413}
+  m_Layer: 8
   m_Name: enemyPoliceman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.24, y: -0.79, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -124,8 +125,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.09758031}
-  m_Size: {x: 1, y: 1.1951606}
+  m_Offset: {x: -0.025913179, y: -0.013476178}
+  m_Size: {x: 0.178182, y: 0.30670866}
   m_Direction: 0
 --- !u!50 &5828722754211613845
 Rigidbody2D:
@@ -166,7 +167,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837e2413bc1ff454aa1a494d78edb66d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 1
   bullet: {fileID: 6752946963688415749, guid: bbdd909b1f4b56949918657723409d67, type: 3}
-  attackDelay: 1
+  bulletOffsetY: 0.44
+  attackDelay: 0.7
   selfwalk: 0
+  animationDelay: 0.2
+--- !u!95 &981374733299155413
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669033549878686495}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e85015645ef1c9449f5ea2142f3302a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

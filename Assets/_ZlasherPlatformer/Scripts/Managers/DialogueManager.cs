@@ -2,9 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 
-public class DialogueManager : ContextManager
+public class DialogueManager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject dialoguePanel;
@@ -65,7 +66,7 @@ public class DialogueManager : ContextManager
         DisplayNextLine();
     }
 
-    private void StartDialogue(string SpeakerName, string[] lines)
+    public void StartDialogue(string SpeakerName, string[] lines)
     {
         currentLines = lines;
         currentLineIndex = 0;
