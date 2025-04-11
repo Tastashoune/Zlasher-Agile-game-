@@ -148,7 +148,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 moveObject.moveSpeed = topSpeed;
             }
-        }
+       }
        else
        {
             float platformMoveSpeed = GetPlatformMoveSpeed();
@@ -157,7 +157,7 @@ public class LevelGenerator : MonoBehaviour
                 moveObject.moveSpeed = platformMoveSpeed;
             }
            
-        }
+       }
 
         //Debug.Log(spawnedFloors[0].moveSpeed);
     }

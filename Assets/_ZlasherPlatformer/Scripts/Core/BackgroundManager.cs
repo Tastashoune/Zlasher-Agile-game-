@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour
 {
+    [Header("Speed settings")]
     [SerializeField]
-    private float scrollSpeed = 0.05f; // Vitesse de défilement de base de la texture
+    private float scrollSpeed = 1f; // Vitesse de défilement de base de la texture
+    [SerializeField]
+    private float speedDivider = 0.05f;
 
+    [Header("The five backgrounds")]
     public GameObject backg1;
     public GameObject backg2;
     public GameObject backg3;
@@ -17,8 +21,6 @@ public class BackgroundManager : MonoBehaviour
     private Renderer rend4;
     private Renderer rend5;
     private LevelGenerator levelFloor;
-
-    private float previousSpeed = 0f; // Stocker la dernière vitesse calculée
 
     void Start()
     {
@@ -35,18 +37,17 @@ public class BackgroundManager : MonoBehaviour
 
     void Update()
     {
-
         float platformMoveSpeed = levelFloor.GetPlatformMoveSpeed();
-        platformMoveSpeed *= 0.01f;
+        platformMoveSpeed *= speedDivider;
         float baseSpeed = platformMoveSpeed * Time.deltaTime * scrollSpeed;
 
-        float offset1 = baseSpeed * 0.2f;
+        float offset1 = baseSpeed * 0.1f;
         rend1.material.mainTextureOffset += new Vector2(offset1, 0f);
 
         float offset2 = baseSpeed * .5f;
         rend2.material.mainTextureOffset += new Vector2(offset2, 0f);
 
-        float offset3 = baseSpeed;
+        float offset3 = baseSpeed * 1f;
         rend3.material.mainTextureOffset += new Vector2(offset3, 0f);
 
         float offset4 = baseSpeed * 1.5f;
