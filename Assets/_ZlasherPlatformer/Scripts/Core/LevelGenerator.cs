@@ -139,7 +139,7 @@ public class LevelGenerator : MonoBehaviour
         {
             foreach(MoveObjects moveObject in spawnedFloors)
             {
-                moveObject.moveSpeed = 4;
+                moveObject.moveSpeed = minSpeed;
             }
         }
        else if(player.position.x >= pointB.position.x)
