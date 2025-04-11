@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using MyInterface;
+using System.Collections;
 public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
-    public int maxHealth = 50;          // Santé maximale de l'ennemi
+    public int maxHealth = 50; // Santé maximale de l'ennemi
 
     [Header("Bullet prefab")]
-    public GameObject bullet;           // prefab du projectile
+    public GameObject bullet; // prefab du projectile
     public float bulletOffsetY;
-    //private RaycastHit2D hit;
 
     private bool isFirstShoot = true;
 
@@ -19,11 +19,12 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
 
-    private int currentHealth;          // Santé actuelle (initialisée dans Start)
+    private int currentHealth; // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    //private EnemyType currentEnemy;
     private Rigidbody2D enemyBody;
     private float moveSpeed;
+
+    private Animator animator; // Reference to the Animator component
 
     // infos (limites) écran
     private float screenLimitLeft;
@@ -31,16 +32,21 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
     private float screenWidth;
     private float spriteSize;
 
+    [Header("Animation and Shooting Delay")]
+    [SerializeField]
+    private float animationDelay = 0.5f; // Delay to wait for the animation to play before shooting
+
     void Start()
     {
         isFirstShoot = true;
-        // infos sur l'ennemi
-        //currentEnemy = EnemyType.Policeman;
-        currentHealth = maxHealth;          // santé max par défaut
-        currentState = EnemyState.Walking;  // "marche" par défaut
+        currentHealth = maxHealth; // santé max par défaut
+        currentState = EnemyState.Walking; // "marche" par défaut
         moveSpeed = -2.0f;
         enemyBody = GetComponent<Rigidbody2D>();
         spriteSize = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+
+        // Get the Animator component
+        animator = GetComponent<Animator>();
 
         // limite gauche écran et largeur totale
         Camera mainCamera = Camera.main;
@@ -50,16 +56,15 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
         timeElapsed = 0f;
     }
+
     void Update()
     {
-        // switch ACTIONS/COMPORTEMENTS
         switch (currentState)
         {
             case EnemyState.Walking:
-                float currentPosX = transform.position.x; // enemyBody.position.x;
+                float currentPosX = transform.position.x;
                 if (enemyBody != null && selfwalk)
                 {
-                    // Calculer la direction tant que l'ennemi est dans l'écran
                     if (currentPosX > screenLimitLeft + spriteSize)
                     {
                         Vector2 direction = new Vector2(moveSpeed, enemyBody.linearVelocity.y);
@@ -67,85 +72,83 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
                     }
                 }
 
-                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
                 if (currentPosX < screenLimitLeft)
                     Die();
 
-                // test du tag Player pour ne pas tirer sur le décor en cas de détection
                 if (HasPlayerInFront())
                 {
-                    //Debug.Log(hit.collider);
                     currentState = EnemyState.Attacking;
                 }
-            break;
+                break;
 
             case EnemyState.Attacking:
-
                 if (timeElapsed > attackDelay || isFirstShoot)
                 {
-                    Shoot();
+                    StartCoroutine(PlayAnimationAndShoot());
                     isFirstShoot = false;
                     timeElapsed = 0f;
                 }
                 timeElapsed += Time.deltaTime;
-                //Debug.Log(timeElapsed);
-                
-                // test du tag Player pour ne pas tirer sur le décor en cas de détection
+
                 if (!HasPlayerInFront())
                 {
-                    //Debug.Log("LOL");
                     currentState = EnemyState.Walking;
-                    isFirstShoot = true;   
+                    isFirstShoot = true;
                 }
-            break;
+                break;
 
             default:
-            break;
+                break;
         }
     }
+
     public bool HasPlayerInFront()
     {
-        // test et détection joueur
-        // dessin du laser devant l'ennemi (pour tester le raycast)
-        // Debug.DrawRay ...
         Vector2 origine = new Vector2(transform.position.x - spriteSize, transform.position.y);
         return Physics2D.Raycast(origine, Vector2.left, screenWidth, LayerMask.GetMask("Player"));
     }
+
     public void TakeDamage(int damage)
     {
-        // Réduire la santé par le montant de dégâts
         currentHealth -= damage;
 
-        // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    public void Shoot()
+    private IEnumerator PlayAnimationAndShoot()
     {
-        Vector3 bulletPosition = new Vector3(transform.position.x - spriteSize, transform.position.y+ bulletOffsetY, transform.position.z);
-        // prise en compte de la rotation du prefab projectile (mais ne sera pas nécessaire lorsque l'asset sera prêt)
+        // Play the e_Policeman animation
+        if (animator != null)
+        {
+            animator.SetTrigger("e_Policeman");
+        }
+
+        // Wait for the animation to finish before shooting
+        yield return new WaitForSeconds(animationDelay);
+
+        // Shoot the projectile
+        Vector3 bulletPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + bulletOffsetY, transform.position.z);
         Instantiate(bullet, bulletPosition, bullet.transform.rotation);
     }
+
     public void Fly()
     {
         // le policeman ne fly pas
     }
+
     public void Die()
     {
-        // à faire : pop de la tête collectable (bonus point de vie)
-
-        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
         transform.position = new Vector3(screenLimitRight, transform.position.y);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (selfwalk)
             return;
 
-        // auto friction par rapport au sol
         if (collision.gameObject.CompareTag("Floor"))
         {
             transform.SetParent(collision.gameObject.transform);
@@ -157,5 +160,10 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         Gizmos.color = Color.green;
         Vector2 origine = new Vector2(transform.position.x - spriteSize, transform.position.y);
         Debug.DrawLine(origine, Vector2.up * origine + Vector2.left * screenWidth);
+    }
+
+    public void Shoot()
+    {
+        throw new System.NotImplementedException();
     }
 }
