@@ -128,9 +128,6 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         {
             isAttacking = true;
             attackTimer = 0f; // Reset the attack timer
-
-            // Perform the attack
-            PerformAttack();
         }
 
         if (isAttacking)
@@ -154,7 +151,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         }
     }
 
-    private void PerformAttack()
+    public void PerformAttack()
     {
         // Get all colliders within the attack range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRangeRadius, LayerMask.GetMask("Enemy"));
