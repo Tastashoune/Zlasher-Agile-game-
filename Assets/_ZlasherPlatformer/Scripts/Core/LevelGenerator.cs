@@ -15,6 +15,7 @@ public class LevelGenerator : MonoBehaviour
     private Transform pointB;
     [SerializeField]
     private float topSpeed;
+    [SerializeField] private float minSpeed = 4;
 
     [SerializeField]
     private GameObject[] floor;
@@ -149,15 +150,20 @@ public class LevelGenerator : MonoBehaviour
             }
         }
        else
-        {
-            float playerLerp = Mathf.InverseLerp(pointA.position.x, pointB.position.x, player.position.x);
+       {
+            float platformMoveSpeed = GetPlatformMoveSpeed();
             foreach (MoveObjects moveObject in spawnedFloors)
             {
-                moveObject.moveSpeed = Mathf.Lerp(4, topSpeed, playerLerp);
+                moveObject.moveSpeed = platformMoveSpeed;
             }
            
         }
 
-
+        //Debug.Log(spawnedFloors[0].moveSpeed);
+    }
+    public float GetPlatformMoveSpeed()
+    {
+        float playerLerp = Mathf.InverseLerp(pointA.position.x, pointB.position.x, player.position.x);
+        return Mathf.Lerp(minSpeed, topSpeed, playerLerp);        
     }
 }
