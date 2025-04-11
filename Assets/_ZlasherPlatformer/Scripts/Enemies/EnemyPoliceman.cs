@@ -114,7 +114,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die();
+            gameObject.SetActive(false);
         }
     }
 
@@ -141,7 +141,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
     public void Die()
     {
-        transform.position = new Vector3(screenLimitRight, transform.position.y);
+       
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
