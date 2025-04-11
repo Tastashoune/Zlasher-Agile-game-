@@ -36,6 +36,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     public GameObject attackRange; // Reference to the child GameObject for attack range
     public int attackDamage = 10; // Damage dealt by the normal attack
     public float attackRangeRadius = 1.5f; // Radius of the attack range
+    public ScoreScript scoreScript; // Reference to the ScoreScript
 
     void Start()
     {
@@ -201,7 +202,13 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             Debug.Log("Player is dead!");
-            // Add death logic here
+
+            // Stop the score counter when the player dies
+            if (scoreScript != null)
+            {
+                scoreScript.StopScore();
+            }
+
             gameObject.SetActive(false); // Deactivate the player object
         }
     }
