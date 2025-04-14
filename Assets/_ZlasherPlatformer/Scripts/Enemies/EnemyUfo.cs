@@ -94,8 +94,11 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     public void Fly()
     {
         Vector3 currentPosition = transform.position;
-        Vector3 targetPosition = player.transform.position;
-        transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
+        if (player != null)
+        {
+            Vector3 targetPosition = player.transform.position;
+            transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
+        }
     }
 
     public void DropHead()

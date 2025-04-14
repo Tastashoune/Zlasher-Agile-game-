@@ -38,6 +38,9 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     public float attackRangeRadius = 1.5f; // Radius of the attack range
     public ScoreScript scoreScript; // Reference to the ScoreScript
 
+    [Header("Game Over screen")]
+    public GameObject gos;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -210,6 +213,8 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
             }
 
             gameObject.SetActive(false); // Deactivate the player object
+            // activate the game over screen
+            gos.SetActive(true);
         }
     }
 
