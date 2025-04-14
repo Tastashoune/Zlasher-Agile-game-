@@ -196,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 1747813106937742815}
     - target: {fileID: 9168229802428959448, guid: 24b0355c384c0b24a88385285835bd07, type: 3}
       propertyPath: healthLossAmount
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -850,8 +850,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8169024326163621042, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169024326163621042, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169024326163621042, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6661058913733326884, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
