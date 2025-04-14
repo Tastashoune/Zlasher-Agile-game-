@@ -28,6 +28,7 @@ public class PlayrHealtBar : MonoBehaviour
     {
         if (healthBarFill != null)
         {
+            //Debug.Log("health bar set");
             float healthPercentage = (float)currentHealth / maxHealth;
             healthBarFill.fillAmount = healthPercentage;
 

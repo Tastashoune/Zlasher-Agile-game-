@@ -193,7 +193,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
+        //Debug.Log("take dgm");
         if (healthBar != null)
         {
             healthBar.SetHealth(currentHealth, maxHealth);
