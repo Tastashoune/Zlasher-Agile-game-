@@ -15,7 +15,7 @@ public class BulletMotion : MonoBehaviour
         bulletBody = GetComponent<Rigidbody2D>();
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
 
-        // pour adapter la vitesse de la balle au sol, on l'accroche au parent comme pour les ennemis
+        // pour adapter la vitesse de la balle qui n'est pas au sol, on l'accroche au parent "Floor" comme pour les ennemis
         GameObject floor = GameObject.FindWithTag("Floor");
         transform.SetParent(floor.gameObject.transform);
     }

@@ -213,6 +213,16 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         }
     }
 
+    public void TakeHealth(int healthAmount)
+    {
+        // take health when you collect an head - Fabien, 14/04/2025
+        currentHealth += healthAmount;
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(currentHealth, maxHealth);
+        }
+    }
+
     // Optional: Visualize the attack range in the editor
     private void OnDrawGizmosSelected()
     {

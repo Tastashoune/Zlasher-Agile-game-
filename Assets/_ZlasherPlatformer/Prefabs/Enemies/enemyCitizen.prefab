@@ -168,3 +168,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   selfwalk: 0
+  cHead: {fileID: 4738619091292963886, guid: 6a52953bd2411874199100af6ce6d399, type: 3}

@@ -7,6 +7,8 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
 
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
+    [Header("Collectable head")]
+    public GameObject cHead;
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
@@ -72,6 +74,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
+            DropHead();
             Die();
         }
     }
@@ -84,10 +87,15 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
     {
         // le piquier ne vole/fly pas
     }
+    public void DropHead()
+    {
+        // pop de la tête collectable (bonus point de vie)
+        // en haut de l'ennemi pour avoir le temps de la collecter
+        Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
+        Instantiate(cHead, headPosition, cHead.transform.rotation);    }
+
     public void Die()
     {
-        // à faire : pop de la tête collectable (bonus point de vie)
-
         // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
         transform.position = new Vector3(screenLimitRight, transform.position.y);
     }

@@ -24,6 +24,7 @@ namespace MyInterface
     {
         void Shoot();
         void Fly();
+        void DropHead();
         void Die();
     }
 }

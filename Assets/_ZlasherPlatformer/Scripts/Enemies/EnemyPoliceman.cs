@@ -9,6 +9,8 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Bullet prefab")]
     public GameObject bullet; // prefab du projectile
     public float bulletOffsetY;
+    [Header("Collectable head")]
+    public GameObject cHead;
 
     private bool isFirstShoot = true;
 
@@ -79,7 +81,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
                 {
                     currentState = EnemyState.Attacking;
                 }
-                break;
+            break;
 
             case EnemyState.Attacking:
                 if (timeElapsed > attackDelay || isFirstShoot)
@@ -95,10 +97,10 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
                     currentState = EnemyState.Walking;
                     isFirstShoot = true;
                 }
-                break;
+            break;
 
             default:
-                break;
+            break;
         }
     }
 
@@ -115,6 +117,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         if (currentHealth <= 0)
         {
             //gameObject.SetActive(false);
+            DropHead();
             Die();
         }
     }
@@ -140,6 +143,13 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         // le policeman ne fly pas
     }
 
+    public void DropHead()
+    {
+        // pop de la tête collectable (bonus point de vie)
+        // en haut de l'ennemi pour avoir le temps de la collecter
+        Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
+        Instantiate(cHead, headPosition, cHead.transform.rotation);
+    }
     public void Die()
     {
         transform.position = new Vector3(screenLimitRight, transform.position.y);

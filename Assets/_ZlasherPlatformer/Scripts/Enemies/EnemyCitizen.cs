@@ -9,6 +9,9 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
 
+    [Header("Collectable head")]
+    public GameObject cHead;
+
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
     //private EnemyType currentEnemy;
@@ -56,6 +59,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
                 }
 
                 // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
+                // Note : il ne drop pas de head dans ce cas là
                 if (currentPosX < screenLimitLeft)
                     Die();
             break;
@@ -72,6 +76,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
+            DropHead();
             Die();
         }
     }
@@ -84,11 +89,17 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     {
         // le citizen ne fly pas
     }
+
+    public void DropHead()
+    {
+        // pop de la tête collectable (bonus point de vie)
+        // en haut de l'ennemi pour avoir le temps de la collecter
+        Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y+spriteSize*3);
+        Instantiate(cHead, headPosition, cHead.transform.rotation);
+    }
     public void Die()
     {
-        //Destroy(gameObject);
-        // à faire : pop de la tête collectable (bonus point de vie)
-
+        // Destroy(gameObject);
         // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
         transform.position = new Vector3(screenLimitRight, transform.position.y);
     }

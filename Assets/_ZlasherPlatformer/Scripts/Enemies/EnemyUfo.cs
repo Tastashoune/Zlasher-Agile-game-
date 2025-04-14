@@ -7,6 +7,8 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
 
     //[Header("Player gameobject")]
     private GameObject player;
+    [Header("Collectable head")]
+    public GameObject cHead;
 
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
@@ -60,6 +62,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
+            DropHead();
             Die();
         }
     }
@@ -74,6 +77,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             {
                 Debug.Log("Player hit");
                 player.TakeDamage(10);
+                DropHead();
                 Die();
             }
             else
@@ -93,12 +97,20 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         Vector3 targetPosition = player.transform.position;
         transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
     }
+
+    public void DropHead()
+    {
+        // pop de la tête collectable (bonus point de vie)
+        // en haut de l'ennemi pour avoir le temps de la collecter
+        Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
+        Instantiate(cHead, headPosition, cHead.transform.rotation);
+
+    }
     public void Die()
     {
-        // à faire : pop de la tête collectable (bonus point de vie)
 
         // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
-        float screenLimitTop=0f;
+        float screenLimitTop =0f;
         transform.position = new Vector3(screenLimitRight, screenLimitTop);
     }
 }
