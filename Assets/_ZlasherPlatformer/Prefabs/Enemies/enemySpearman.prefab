@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6225405834826250013}
   - component: {fileID: 4530911767500050798}
   - component: {fileID: 6110663772810455880}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: enemySpearman
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3790654926414913747}
   - component: {fileID: 1397575464380969378}
   - component: {fileID: 119731435737868997}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: enemyUfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  player: {fileID: 0}
 --- !u!50 &3790654926414913747
 Rigidbody2D:
   serializedVersion: 5
@@ -181,4 +180,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  player: {fileID: 0}

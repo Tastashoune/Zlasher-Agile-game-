@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using MyInterface;
-public class EnemyUfo : MonoBehaviour, IEnemyInterface
+public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
     public int maxHealth = 50;          // Santé maximale de l'ennemi
@@ -45,9 +45,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
         switch (currentState)
         {
             case EnemyState.Flying:
-                Vector3 currentPosition = transform.position;
-                Vector3 targetPosition = player.transform.position;
-                transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
+                Fly();
             break;
 
             default:
@@ -91,7 +89,9 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface
     }
     public void Fly()
     {
-
+        Vector3 currentPosition = transform.position;
+        Vector3 targetPosition = player.transform.position;
+        transform.position = Vector3.Lerp(currentPosition, targetPosition, moveSpeed * Time.deltaTime);
     }
     public void Die()
     {

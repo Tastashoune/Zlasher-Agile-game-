@@ -114,7 +114,8 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
 
         if (currentHealth <= 0)
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            Die();
         }
     }
 

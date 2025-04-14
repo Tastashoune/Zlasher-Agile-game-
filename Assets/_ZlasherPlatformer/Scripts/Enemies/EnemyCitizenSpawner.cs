@@ -5,6 +5,8 @@ public class EnemyCitizenSpawner : MonoBehaviour
 {
     public int nbMaxCitizen=10;
     public GameObject enemyCitizen;
+    public float minSpawnDelay = 1f;
+    public float maxSpawnDelay = 3f;
 
     private float screenLimitRight;
     private float screenHeight;
@@ -32,7 +34,7 @@ public class EnemyCitizenSpawner : MonoBehaviour
 
         for(int a=0; a<nbMaxCitizen; a++)
         {
-            float randomDelay = Random.Range(.4f, 1f);
+            float randomDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
             Instantiate(enemyCitizen, posCitizen, Quaternion.identity);
             yield return new WaitForSeconds(randomDelay);
         }

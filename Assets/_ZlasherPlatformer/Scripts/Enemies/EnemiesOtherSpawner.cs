@@ -7,6 +7,8 @@ public class EnemiesOtherSpawner : MonoBehaviour
     public GameObject enemyPoliceman;
     public GameObject enemySpearman;
     public GameObject enemyUfo;
+    public float minSpawnDelay = 1f;
+    public float maxSpawnDelay = 3f;
 
     private float screenLimitRight;
     private float screenHeight;
@@ -54,7 +56,7 @@ public class EnemiesOtherSpawner : MonoBehaviour
             float spriteSize = randomEnemy.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
             Vector3 posEnemy = new Vector3(screenLimitRight + spriteSize / 2, screenHeight / 2, 0f);
 
-            float randomDelay = Random.Range(.4f, 1f);
+            float randomDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
             Instantiate(randomEnemy, posEnemy, Quaternion.identity);
             yield return new WaitForSeconds(randomDelay);
         }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6306533850015226437}
   - component: {fileID: 6636733569215912909}
   - component: {fileID: 457524582752909577}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: enemyCitizen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
