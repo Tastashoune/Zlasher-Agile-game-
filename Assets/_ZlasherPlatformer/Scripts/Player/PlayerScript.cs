@@ -41,6 +41,8 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     [Header("Game Over screen")]
     public GameObject gos;
 
+    private AudioManager audioInstance;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -61,6 +63,9 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         {
             animator.SetTrigger("Run");
         }
+
+        // récupération de l'instance d'AudioManager
+        audioInstance = AudioManager.instance;
     }
 
     void Update()
@@ -213,6 +218,15 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
             }
 
             gameObject.SetActive(false); // Deactivate the player object
+
+            // sound of death of the player
+            if (audioInstance != null)
+            {
+                Debug.Log("audio OK");
+                audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.Death];
+                audioInstance.audioSource.Play();
+            }
+
             // activate the game over screen
             gos.SetActive(true);
         }

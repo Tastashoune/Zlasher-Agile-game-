@@ -12,6 +12,8 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Collectable head")]
     public GameObject cHead;
 
+    private AudioManager audioInstance;
+
     private bool isFirstShoot = true;
 
     private float timeElapsed;
@@ -57,6 +59,10 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         screenWidth = screenLimitRight - screenLimitLeft;
 
         timeElapsed = 0f;
+
+        // récupération de l'instance d'AudioManager
+        audioInstance = AudioManager.instance;
+
     }
 
     void Update()
@@ -117,6 +123,7 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         if (currentHealth <= 0)
         {
             //gameObject.SetActive(false);
+            SoundOfDeath();
             DropHead();
             Die();
         }
@@ -149,6 +156,16 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
         // en haut de l'ennemi pour avoir le temps de la collecter
         Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
         Instantiate(cHead, headPosition, cHead.transform.rotation);
+    }
+    public void SoundOfDeath()
+    {
+        // son de mort de l'ennemi
+        if (audioInstance != null)
+        {
+            Debug.Log("audio OK");
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
+            audioInstance.audioSource.Play();
+        }
     }
     public void Die()
     {

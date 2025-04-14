@@ -10,6 +10,8 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Collectable head")]
     public GameObject cHead;
 
+    private AudioManager audioInstance;
+
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
     //private EnemyType currentEnemy;
@@ -40,6 +42,9 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
 
         // récupération du player
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // récupération de l'instance d'AudioManager
+        audioInstance = AudioManager.instance;
     }
     void Update()
     {
@@ -111,6 +116,13 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
+        // son de mort de l'ennemi
+        if (audioInstance != null)
+        {
+            Debug.Log("audio OK");
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
+            audioInstance.audioSource.Play();
+        }
 
         // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
         float screenLimitTop =0f;

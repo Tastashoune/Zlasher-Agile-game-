@@ -10,6 +10,8 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
     [Header("Collectable head")]
     public GameObject cHead;
 
+    private AudioManager audioInstance;
+
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
     //private EnemyType currentEnemy;
@@ -37,6 +39,9 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
         screenWidth = screenLimitRight - screenLimitLeft;
+
+        // récupération de l'instance d'AudioManager
+        audioInstance = AudioManager.instance;
     }
     void Update()
     {
@@ -74,6 +79,7 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
+            SoundOfDeath();
             DropHead();
             Die();
         }
@@ -92,8 +98,18 @@ public class EnemySpearman : MonoBehaviour, IEnemyInterface, IDamageable
         // pop de la tête collectable (bonus point de vie)
         // en haut de l'ennemi pour avoir le temps de la collecter
         Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
-        Instantiate(cHead, headPosition, cHead.transform.rotation);    }
-
+        Instantiate(cHead, headPosition, cHead.transform.rotation);
+    }
+    public void SoundOfDeath()
+    {
+        // son de mort de l'ennemi
+        if (audioInstance != null)
+        {
+            Debug.Log("audio OK");
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
+            audioInstance.audioSource.Play();
+        }
+    }
     public void Die()
     {
         // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
