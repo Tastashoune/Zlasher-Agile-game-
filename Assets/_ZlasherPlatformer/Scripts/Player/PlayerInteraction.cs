@@ -25,9 +25,10 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("PRESSED E");
             currentInteractable?.Interact();
+            interactionPromptPanel.SetActive(false);
         }
+
     }
 
     public void RegisterInputActions()
