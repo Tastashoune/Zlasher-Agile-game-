@@ -166,6 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b09fb8a5faf2c4d9f18e53b2467373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 1
   selfwalk: 0
   cHead: {fileID: 4738619091292963886, guid: 6a52953bd2411874199100af6ce6d399, type: 3}
