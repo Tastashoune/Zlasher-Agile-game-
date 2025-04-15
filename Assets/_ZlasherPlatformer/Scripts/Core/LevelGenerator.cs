@@ -14,8 +14,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private Transform pointB;
     [SerializeField]
-    private float topSpeed;
-    [SerializeField] private float minSpeed = 4;
+    private float topSpeed = 20;
+    [SerializeField]
+    private float minSpeed = 4;
 
     [SerializeField]
     private GameObject[] floor;
@@ -34,6 +35,12 @@ public class LevelGenerator : MonoBehaviour
     private int initialFloorCount = 3;
     private int maxFloorsCount = 3;
 
+    private float timeElapsed = 0f;
+    [Header("Speed over time settings")]
+    [SerializeField]
+    private float timeInterval = 7f;
+    [SerializeField]
+    private float speedIncrement = 2f;
 
     private void Awake()
     {
@@ -55,6 +62,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
+
         for (int i = 0; i < initialFloorCount; i++)
         {
             SpawnFloor(true);
@@ -85,6 +93,15 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
+        // Level Generator speed over time
+        // Augmenter les vitesses toutes les 7 secondes
+        timeElapsed += Time.deltaTime;
+        if (timeElapsed >= timeInterval)
+        {
+            timeElapsed = 0f; // Réinitialiser le compteur
+            minSpeed += speedIncrement;
+            topSpeed += speedIncrement;
+        }
         //lastFloorPosition.x = transform.position.x + floorWidth;
 
         if (CanSpawnFloor())
