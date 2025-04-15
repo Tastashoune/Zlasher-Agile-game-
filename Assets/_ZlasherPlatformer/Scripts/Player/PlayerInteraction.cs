@@ -9,6 +9,8 @@ public class PlayerInteraction : MonoBehaviour
     public TextMeshProUGUI interactionPromptText;
 
     private IInteractable currentInteractable;
+    [SerializeField]
+    private PlayerInput playerInput;
 
     private void Awake()
     {
@@ -16,9 +18,33 @@ public class PlayerInteraction : MonoBehaviour
         {
             interactionPromptPanel.SetActive(false);
         }
+        playerInput = GetComponent<PlayerInput>();
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
+    public void RegisterInputActions()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            playerInput.actions["Interact"].started += OnInteract;
+        }
+        else
+        {
+            Debug.LogError("PlayerInput is null");
+        }
+    }
+
+
+    public void UnregisterInputActions()
+    {
+        
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            playerInput.actions["Interact"].started -= OnInteract;
+        }
+    }
+
+
+    public void OnInteract(InputAction.CallbackContext context)
     {
         if(currentInteractable != null)
         {
