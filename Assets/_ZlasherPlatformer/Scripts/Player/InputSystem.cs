@@ -94,4 +94,9 @@ public class InputManager : MonoBehaviour
     {
         return Input.GetKey(KeyCode.D);
     }
+
+    public bool GetInteract()
+    {
+        return Input.GetKey(KeyCode.E);
+    }
 }

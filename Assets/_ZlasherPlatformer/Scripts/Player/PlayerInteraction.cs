@@ -21,6 +21,15 @@ public class PlayerInteraction : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("PRESSED E");
+            currentInteractable?.Interact();
+        }
+    }
+
     public void RegisterInputActions()
     {
         if(Input.GetKeyDown(KeyCode.E))

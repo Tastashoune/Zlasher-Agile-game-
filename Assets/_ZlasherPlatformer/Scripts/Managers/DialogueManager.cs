@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
     private string[] currentLines;
     private int currentLineIndex;
     private bool isDialogueActive;
+  
 
     private void Awake()
     {
@@ -68,6 +69,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string SpeakerName, string[] lines)
     {
+        Debug.Log("STARTING DIALOGUE");
         currentLines = lines;
         currentLineIndex = 0;
         isDialogueActive = true;
@@ -84,7 +86,9 @@ public class DialogueManager : MonoBehaviour
         {
             EndDialogue();
             return;
-        } 
+        }
+        dialogueText.text = currentLines[currentLineIndex];
+        currentLineIndex++;
     }
 
 

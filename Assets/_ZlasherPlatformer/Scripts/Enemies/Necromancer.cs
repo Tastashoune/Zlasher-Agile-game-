@@ -10,6 +10,7 @@ public class Necromancer : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        Debug.Log("NPC INTERATED WITH");
         ContextManager.Instance.dialogueManager.StartDialogue(necromancerName, dialogueData.dialogueLines);
 
     }

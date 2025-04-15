@@ -42,6 +42,8 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
 
     private AudioManager audioInstance;
 
+    private IInteractable currentInteractible;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -239,6 +241,16 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         {
             healthBar.SetHealth(currentHealth, maxHealth);
         }
+    }
+
+    public void HandleInteract()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("PRESSED E");
+            currentInteractible?.Interact();
+        }
+
     }
 
     // Optional: Visualize the attack range in the editor
