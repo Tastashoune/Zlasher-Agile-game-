@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5365944512691434816}
   - component: {fileID: 2574656651657700908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyCitizenSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nbMaxCitizen: 10
   enemyCitizen: {fileID: 7750702611120628014, guid: 3fb573528992866428e95674ef7834db, type: 3}
+  minSpawnDelay: 0.1
+  maxSpawnDelay: 0.2

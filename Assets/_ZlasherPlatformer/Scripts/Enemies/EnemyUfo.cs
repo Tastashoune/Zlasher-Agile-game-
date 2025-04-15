@@ -82,6 +82,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             {
                 Debug.Log("Player hit");
                 player.TakeDamage(10);
+                SoundOfDeath();
                 DropHead();
                 Die();
             }
@@ -114,18 +115,21 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         Instantiate(cHead, headPosition, cHead.transform.rotation);
 
     }
-    public void Die()
-    {
-        // Notify the score system
-        GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
 
-        // Play enemy death sound
+    public void SoundOfDeath()
+    {
+        // son de mort de l'ennemi
         if (audioInstance != null)
         {
             Debug.Log("audio OK");
             audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
             audioInstance.audioSource.Play();
         }
+    }
+    public void Die()
+    {
+        // Notify the score system
+        GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
 
         // Object pooling or repositioning logic
         float screenLimitTop = 0f;

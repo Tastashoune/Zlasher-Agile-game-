@@ -8,6 +8,6 @@ public class EnemyDeathNotifier : MonoBehaviour
     public void NotifyDeath()
     {
         OnEnemyKilled?.Invoke(); // Trigger the event
-        Destroy(gameObject); // Destroy the enemy GameObject
+        //Destroy(gameObject); // Destroy the enemy GameObject
     }
 }

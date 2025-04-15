@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MyInterface;
-using UnityEngine.Audio;
 
 public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
 {
@@ -24,6 +23,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     // infos (limites) écran
     private float screenLimitLeft;
     private float screenLimitRight;
+    private float screenLimitBottom;
     private float screenWidth;
     private float spriteSize;
 
@@ -41,6 +41,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         Camera mainCamera = Camera.main;
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+        screenLimitBottom = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
         screenWidth = screenLimitRight - screenLimitLeft;
 
         // récupération de l'instance d'AudioManager
@@ -53,7 +54,12 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         {
             case EnemyState.Walking:
                 float currentPosX = transform.position.x; // enemyBody.position.x;
+                /*
+                float currentPosY = transform.position.y;
 
+                if (currentPosY < screenLimitBottom)
+                    transform.position = new Vector3(currentPosX, screenLimitBottom+spriteSize);
+                */
                 if (enemyBody != null && selfwalk)
                 {
                     // Calculer la direction tant que l'ennemi est dans l'écran
@@ -123,6 +129,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         // Object pooling or repositioning logic
         float screenLimitTop = 0f;
         transform.position = new Vector3(screenLimitRight, screenLimitTop);
+        //Debug.Log($"slr={transform.position.x}, tpy={transform.position.y}");
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

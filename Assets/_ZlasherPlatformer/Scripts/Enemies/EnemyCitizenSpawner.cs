@@ -22,10 +22,6 @@ public class EnemyCitizenSpawner : MonoBehaviour
 
         StartCoroutine(EnemyPop());
     }
-    void Update()
-    {
-        
-    }
     public IEnumerator EnemyPop()
     {
         // on récupère la sprite size pour placer l'ennemi en dehors de l'écran lors de sa chute
@@ -35,7 +31,12 @@ public class EnemyCitizenSpawner : MonoBehaviour
         for(int a=0; a<nbMaxCitizen; a++)
         {
             float randomDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            //GameObject newEnemy = 
+            // on set l'objet instancié au parent "EnemyCitizenSpawner"
+            //Instantiate(enemyCitizen, posCitizen, Quaternion.identity, transform);
             Instantiate(enemyCitizen, posCitizen, Quaternion.identity);
+            //Debug.Log(newEnemy.transform.parent.name);
+            //newEnemy.transform.SetParent(GameObject.FindGameObjectWithTag("Floor").transform);
             yield return new WaitForSeconds(randomDelay);
         }
     }
