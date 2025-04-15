@@ -76,6 +76,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         HandleAttack();
         ConstrainPlayerWithinCamera();
         HandleHealthLossOverTime();
+        HandleInteract();
     }
 
     private void HandleMovement()
@@ -252,6 +253,8 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         }
 
     }
+
+   
 
     // Optional: Visualize the attack range in the editor
     private void OnDrawGizmosSelected()
