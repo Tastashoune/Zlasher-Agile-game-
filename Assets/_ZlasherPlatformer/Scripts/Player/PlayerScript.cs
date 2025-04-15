@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovementScript : MonoBehaviour, IDamageable
 {
@@ -38,8 +39,6 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     public float attackRangeRadius = 1.5f; // Radius of the attack range
     public ScoreScript scoreScript; // Reference to the ScoreScript
 
-    [Header("Game Over screen")]
-    public GameObject gos;
 
     private AudioManager audioInstance;
 
@@ -226,9 +225,9 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
                 audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.Death];
                 audioInstance.audioSource.Play();
             }
-
+            SceneManager.LoadScene("GameOverScene");
             // activate the game over screen
-            gos.SetActive(true);
+            //gos.SetActive(true);
         }
     }
 
