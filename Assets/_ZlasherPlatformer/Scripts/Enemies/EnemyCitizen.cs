@@ -117,9 +117,20 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
-        // Destroy(gameObject);
-        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
-        transform.position = new Vector3(screenLimitRight, transform.position.y);
+        // Notify the score system
+        GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
+
+        // Play enemy death sound
+        if (audioInstance != null)
+        {
+            Debug.Log("audio OK");
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
+            audioInstance.audioSource.Play();
+        }
+
+        // Object pooling or repositioning logic
+        float screenLimitTop = 0f;
+        transform.position = new Vector3(screenLimitRight, screenLimitTop);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

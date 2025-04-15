@@ -201,7 +201,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        //Debug.Log("take dgm");
+
         if (healthBar != null)
         {
             healthBar.SetHealth(currentHealth, maxHealth);
@@ -219,7 +219,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
 
             gameObject.SetActive(false); // Deactivate the player object
 
-            // sound of death of the player
+            // Play death sound
             if (audioInstance != null)
             {
                 Debug.Log("audio OK");
@@ -227,7 +227,7 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
                 audioInstance.audioSource.Play();
             }
 
-            // activate the game over screen
+            // Activate the game over screen
             gos.SetActive(true);
         }
     }
