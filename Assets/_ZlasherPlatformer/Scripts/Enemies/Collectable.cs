@@ -35,7 +35,7 @@ public class Collectable : MonoBehaviour
                     audioInstance.audioSource.Play();
                 }
 
-                playerS.TakeHealth(10);
+                playerS.TakeHealth(9);
             }
 
             // destruction de la tête
