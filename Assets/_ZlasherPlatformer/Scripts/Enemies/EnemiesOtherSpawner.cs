@@ -54,7 +54,7 @@ public class EnemiesOtherSpawner : MonoBehaviour
             }
             // on récupère la sprite size pour placer l'ennemi en dehors de l'écran lors de sa chute
             float spriteSize = randomEnemy.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
-            Vector3 posEnemy = new Vector3(screenLimitRight + spriteSize / 2, screenHeight / 2, 0f);
+            Vector3 posEnemy = new Vector3(screenLimitRight + spriteSize / 2, screenHeight /2, 0f);
 
             float randomDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
             Instantiate(randomEnemy, posEnemy, Quaternion.identity);

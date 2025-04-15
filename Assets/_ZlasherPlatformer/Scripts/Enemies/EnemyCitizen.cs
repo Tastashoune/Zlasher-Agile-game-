@@ -120,14 +120,6 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         // Notify the score system
         GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
 
-        // Play enemy death sound
-        if (audioInstance != null)
-        {
-            Debug.Log("audio OK");
-            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
-            audioInstance.audioSource.Play();
-        }
-
         // Object pooling or repositioning logic
         float screenLimitTop = 0f;
         transform.position = new Vector3(screenLimitRight, screenLimitTop);
