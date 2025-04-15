@@ -3,7 +3,8 @@ using MyInterface;
 public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
-    public int maxHealth = 50;          // Santé maximale de l'ennemi
+    public float maxHealth = 50f; // Changed to float for compatibility with float damage
+    private float currentHealth;  // Changed to float
 
     //[Header("Player gameobject")]
     private GameObject player;
@@ -12,9 +13,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
 
     private AudioManager audioInstance;
 
-    private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    //private EnemyType currentEnemy;
     private Rigidbody2D enemyBody;
     private float moveSpeed;
 
@@ -27,7 +26,6 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     void Start()
     {
         // infos sur l'ennemi
-        //currentEnemy = EnemyType.Ufo;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Flying;   // "vol" par défaut
         moveSpeed = .5f;
@@ -46,6 +44,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         // récupération de l'instance d'AudioManager
         audioInstance = AudioManager.instance;
     }
+
     void Update()
     {
         // switch ACTIONS/COMPORTEMENTS
@@ -53,13 +52,14 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         {
             case EnemyState.Flying:
                 Fly();
-            break;
+                break;
 
             default:
-            break;
+                break;
         }
     }
-    public void TakeDamage(int damage)
+
+    public void TakeDamage(float damage) // Changed parameter type to float
     {
         // Réduire la santé par le montant de dégâts
         currentHealth -= damage;
@@ -81,10 +81,12 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             if (player != null)
             {
                 Debug.Log("Player hit");
-                player.TakeDamage(10);
+                player.TakeDamage(20); // Player takes 10 damage
+
+                // Play sound and destroy the UFO
                 SoundOfDeath();
                 DropHead();
-                Die();
+                Destroy(gameObject); // Destroy the UFO after collision
             }
             else
             {
@@ -97,6 +99,7 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     {
         // le ufo ne shoot pas
     }
+
     public void Fly()
     {
         Vector3 currentPosition = transform.position;
@@ -113,7 +116,6 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
         // en haut de l'ennemi pour avoir le temps de la collecter
         Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y + spriteSize * 3);
         Instantiate(cHead, headPosition, cHead.transform.rotation);
-
     }
 
     public void SoundOfDeath()
@@ -126,13 +128,18 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             audioInstance.audioSource.Play();
         }
     }
+
     public void Die()
     {
         // Notify the score system
         GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
 
-        // Object pooling or repositioning logic
-        float screenLimitTop = 0f;
-        transform.position = new Vector3(screenLimitRight, screenLimitTop);
+        // Destroy the UFO
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        throw new System.NotImplementedException();
     }
 }

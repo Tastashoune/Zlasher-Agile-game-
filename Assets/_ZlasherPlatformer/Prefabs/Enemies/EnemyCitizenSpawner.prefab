@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nbMaxCitizen: 10
   enemyCitizen: {fileID: 7750702611120628014, guid: 3fb573528992866428e95674ef7834db, type: 3}
-  minSpawnDelay: 0.1
-  maxSpawnDelay: 0.2
+  minSpawnDelay: 0.5
+  maxSpawnDelay: 1.5
