@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6636733569215912909}
   - component: {fileID: 457524582752909577}
   - component: {fileID: 8618464668619293686}
+  - component: {fileID: -818629962926386104}
   m_Layer: 8
   m_Name: enemyCitizen
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.01, y: -0.24, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1608345395, guid: d0307853de12f384595ef49034b03cf6, type: 3}
+  m_Sprite: {fileID: -7737038086792640590, guid: 909b2429eb4797849b36fb234ac420d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -182,3 +183,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653f7cc3d608ecf428530f8455f07c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &-818629962926386104
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750702611120628014}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ec61a4bfcdfe584383e696d2b5a96e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
