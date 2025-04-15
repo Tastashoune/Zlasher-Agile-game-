@@ -14,12 +14,12 @@ public class EnemyKillScore : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDeathNotifier.OnEnemyKilled += IncrementScore; // Subscribe to the event
+        EnemyDeathNotifier.OnEnemyKilled += IncrementScore;
     }
 
     private void OnDisable()
     {
-        EnemyDeathNotifier.OnEnemyKilled -= IncrementScore; // Unsubscribe from the event
+        EnemyDeathNotifier.OnEnemyKilled -= IncrementScore;
     }
 
     public void IncrementScore()

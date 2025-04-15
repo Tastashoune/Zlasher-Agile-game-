@@ -116,7 +116,10 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
     }
     public void Die()
     {
-        // son de mort de l'ennemi
+        // Notify the score system
+        GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
+
+        // Play enemy death sound
         if (audioInstance != null)
         {
             Debug.Log("audio OK");
@@ -124,8 +127,8 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             audioInstance.audioSource.Play();
         }
 
-        // object pooling, au lieu du destroy on remet le sprite enemyCitizen à droite de l'écran
-        float screenLimitTop =0f;
+        // Object pooling or repositioning logic
+        float screenLimitTop = 0f;
         transform.position = new Vector3(screenLimitRight, screenLimitTop);
     }
 }
