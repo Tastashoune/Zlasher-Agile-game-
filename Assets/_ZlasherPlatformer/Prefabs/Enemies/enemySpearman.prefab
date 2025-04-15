@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6225405834826250013}
   - component: {fileID: 4530911767500050798}
   - component: {fileID: 6110663772810455880}
+  - component: {fileID: -1413402859266896159}
   m_Layer: 8
   m_Name: enemySpearman
   m_TagString: Untagged
@@ -169,3 +170,15 @@ MonoBehaviour:
   maxHealth: 50
   selfwalk: 0
   cHead: {fileID: 4738619091292963886, guid: 6a52953bd2411874199100af6ce6d399, type: 3}
+--- !u!114 &-1413402859266896159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021139369125998498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653f7cc3d608ecf428530f8455f07c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

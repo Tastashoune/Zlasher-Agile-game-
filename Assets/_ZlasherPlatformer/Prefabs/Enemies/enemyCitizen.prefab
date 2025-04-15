@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6306533850015226437}
   - component: {fileID: 6636733569215912909}
   - component: {fileID: 457524582752909577}
+  - component: {fileID: 8618464668619293686}
   m_Layer: 8
   m_Name: enemyCitizen
   m_TagString: Untagged
@@ -169,3 +170,15 @@ MonoBehaviour:
   maxHealth: 1
   selfwalk: 0
   cHead: {fileID: 4738619091292963886, guid: 6a52953bd2411874199100af6ce6d399, type: 3}
+--- !u!114 &8618464668619293686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750702611120628014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653f7cc3d608ecf428530f8455f07c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
