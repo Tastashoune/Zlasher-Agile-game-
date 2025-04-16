@@ -14,9 +14,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private Transform pointB;
     [SerializeField]
-    private float topSpeed = 20;
+    private float topSpeed = 20f;
     [SerializeField]
-    private float minSpeed = 4;
+    private float minSpeed = 4f;
 
     [SerializeField]
     private GameObject[] floor;
@@ -41,6 +41,8 @@ public class LevelGenerator : MonoBehaviour
     private float timeInterval = 7f;
     [SerializeField]
     private float speedIncrement = 2f;
+    [SerializeField]
+    private float maxSpeed = 100f;
 
     private void Awake()
     {
@@ -99,8 +101,13 @@ public class LevelGenerator : MonoBehaviour
         if (timeElapsed >= timeInterval)
         {
             timeElapsed = 0f; // Réinitialiser le compteur
-            minSpeed += speedIncrement;
-            topSpeed += speedIncrement;
+            // utilization of the maxSpeed
+            if(topSpeed < maxSpeed)
+            {
+                minSpeed += speedIncrement;
+                topSpeed += speedIncrement;
+                Debug.Log($"topSpeed = {topSpeed}");
+            }
         }
         //lastFloorPosition.x = transform.position.x + floorWidth;
 
