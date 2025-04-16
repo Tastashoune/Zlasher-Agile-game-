@@ -77,6 +77,11 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         ConstrainPlayerWithinCamera();
         HandleHealthLossOverTime();
         HandleInteract();
+        if(!enabled)
+        {
+            Debug.Log("PlayerMovement is DISABLED");
+            return;
+        }
     }
 
     private void HandleMovement()

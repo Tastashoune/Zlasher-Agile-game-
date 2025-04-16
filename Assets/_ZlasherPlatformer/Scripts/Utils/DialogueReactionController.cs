@@ -8,7 +8,7 @@ public class DialogueReactionController : MonoBehaviour
     public DialogueManager dialogueManager;
     public Animator playerAnimator;
     public Necromancer necromancer;
-
+    public PlayerMovementScript playerMovement;
 
     public float autoWalkDuration = 2f;
     public float walkSpeed = 2f;
@@ -23,14 +23,23 @@ public class DialogueReactionController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if(fadePanel != null)
+        {
+            fadePanel.alpha = 0f;
+        }
+        if (playerMovement == null)
+            playerMovement = GetComponent<PlayerMovementScript>();
     }
 
     private void Update()
     {
-        if(isAutoWalking)
+        if(isAutoWalking && rb !=null)
         {
-            rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocityY);
+            //rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocity.y);
+            Vector2 targetPosition = rb.position + Vector2.right * walkSpeed * Time.deltaTime;
+            rb.MovePosition(targetPosition);
         }
+        Debug.Log("Auto-walking... position: " + transform.position);
     }
 
     private void OnEnable()
@@ -45,6 +54,8 @@ public class DialogueReactionController : MonoBehaviour
 
     private void HandleDialogueEnd()
     {
+        if (playerMovement != null)
+            playerMovement.enabled = false;
         playerAnimator.enabled = true;
 
         playerAnimator.Play("Attack", 0, 0f);
@@ -56,6 +67,7 @@ public class DialogueReactionController : MonoBehaviour
 
     private IEnumerator AutoWalkThenFade(float delay)
     {
+        
         yield return new WaitForSeconds(delay);
 
         isAutoWalking = true;

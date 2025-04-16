@@ -47,8 +47,9 @@ MonoBehaviour:
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 0}
   talkingNPCText: {fileID: 0}
-  talkingNPCImage: {fileID: 0}
-  continueDialogueAction: {fileID: 0}
+  talkingNPCImage: {fileID: 21300000, guid: 65147c2e5c799fc40b9705062a786437, type: 3}
+  continueDialogueAction: {fileID: 7040659881675835329, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  typingSpeed: 0.05
 --- !u!1 &1860145882256100586
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 3367042772536302096}
   gameManager: {fileID: 4014878877768254078}
-  audioManager: {fileID: 0}
+  audioManager: {fileID: 2542571366352516888}
 --- !u!1001 &8372146628315119512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,6 +246,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d5c72de77bdd9c45bd5243384cc1569, type: 3}
+--- !u!114 &2542571366352516888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6297950033496082560, guid: 5d5c72de77bdd9c45bd5243384cc1569, type: 3}
+  m_PrefabInstance: {fileID: 8372146628315119512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 288bde92c7329b5429a3b520060231cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6009994716561580790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2830544638364114286, guid: 5d5c72de77bdd9c45bd5243384cc1569, type: 3}
