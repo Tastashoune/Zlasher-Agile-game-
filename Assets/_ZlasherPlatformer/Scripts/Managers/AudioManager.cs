@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         // when we start the game, we play "let's kill"
-        audioSource.clip = playlist[(int)Sounds.LetsKill];
-        audioSource.Play();
+        //audioSource.clip = playlist[(int)Sounds.LetsKill];
+        //audioSource.Play();
     }
 }

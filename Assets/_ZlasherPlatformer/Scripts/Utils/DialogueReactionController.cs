@@ -21,6 +21,8 @@ public class DialogueReactionController : MonoBehaviour
     public CanvasGroup fadePanel;
     public float fadeDuration = 1f;
 
+    [SerializeField]
+    float delayAfterFade;
 
     private void Start()
     {
@@ -101,6 +103,8 @@ public class DialogueReactionController : MonoBehaviour
             yield return null;
         }
         fadePanel.alpha = 1f;
+
+        yield return new WaitForSeconds(delayAfterFade);
 
         SceneManager.LoadScene("MainScene");
 
