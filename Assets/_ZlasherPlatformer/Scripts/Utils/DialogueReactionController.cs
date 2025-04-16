@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO.Pipes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class DialogueReactionController : MonoBehaviour
     public Animator playerAnimator;
     public Necromancer necromancer;
     public PlayerMovementScript playerMovement;
+    public MusicManager musicManager;
 
     public float autoWalkDuration = 2f;
     public float walkSpeed = 2f;
@@ -23,6 +25,9 @@ public class DialogueReactionController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        //musicManager = GetComponent<MusicManager>();
+        musicManager = MusicManager.instance;
+        musicManager.audioSource.Stop();
         if(fadePanel != null)
         {
             fadePanel.alpha = 0f;
@@ -63,6 +68,9 @@ public class DialogueReactionController : MonoBehaviour
         StartCoroutine(DelayedDeath(0.2f));
 
         StartCoroutine(AutoWalkThenFade(1.0f));
+
+        musicManager.audioSource.Play();
+
     }
 
     private IEnumerator AutoWalkThenFade(float delay)
