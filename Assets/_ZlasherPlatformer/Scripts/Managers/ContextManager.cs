@@ -6,6 +6,7 @@ public class ContextManager : MonoBehaviour
     public DialogueManager dialogueManager;
     public GameManager gameManager;
     public AudioManager audioManager;
+    public MusicManager musicManager;
 
     private void Awake()
     {
