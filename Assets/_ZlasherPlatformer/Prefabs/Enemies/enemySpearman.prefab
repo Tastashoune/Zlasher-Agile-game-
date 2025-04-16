@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4530911767500050798}
   - component: {fileID: 6110663772810455880}
   - component: {fileID: -1413402859266896159}
+  - component: {fileID: -8831922352001518062}
   m_Layer: 8
   m_Name: enemySpearman
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.705619, y: 2.8169599, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1819378183, guid: d0307853de12f384595ef49034b03cf6, type: 3}
+  m_Sprite: {fileID: -1809780446, guid: 54ec7fe1d1815e14dbec22ee050aaae6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,8 +126,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.017187834, y: 0.38849163}
-  m_Size: {x: 1.8350768, y: 1.8350768}
+  m_Offset: {x: -0.010856718, y: -0.0008699596}
+  m_Size: {x: 0.16367096, y: 0.41058308}
   m_Direction: 0
 --- !u!50 &4530911767500050798
 Rigidbody2D:
@@ -182,3 +183,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653f7cc3d608ecf428530f8455f07c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &-8831922352001518062
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021139369125998498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 664eb757f199391418e7d7f48110c396, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
