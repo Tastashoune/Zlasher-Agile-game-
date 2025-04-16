@@ -20,4 +20,9 @@ public class Necromancer : MonoBehaviour, IInteractable
         return "Press E to talk to the necromancer " + necromancerName;
     }
 
+   public void Die()
+    {
+        Destroy(gameObject, 2f);
+    }
+
 }

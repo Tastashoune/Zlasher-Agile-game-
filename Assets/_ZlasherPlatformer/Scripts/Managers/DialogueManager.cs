@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 
 public class DialogueManager : MonoBehaviour
@@ -27,6 +28,8 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping;
 
+
+    public event Action OnDialogueEnd;
 
     private void Awake()
     {
@@ -87,6 +90,7 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue(string SpeakerName, string[] lines)
     {
+
         Debug.Log("STARTING DIALOGUE");
         currentLines = lines;
         currentLineIndex = 0;
@@ -132,6 +136,7 @@ public class DialogueManager : MonoBehaviour
     {
         isDialogueActive = false;
         dialoguePanel.SetActive(false);
+        OnDialogueEnd?.Invoke();
     }
 
     
