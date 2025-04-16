@@ -3,10 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private void Start()
-    {
-        
-    }
     public void StartAfterIntro()
     {
         // backgrounds already OK/present in the scene
@@ -24,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("DialogueScene");
     }
 
     public void QuitGame()
