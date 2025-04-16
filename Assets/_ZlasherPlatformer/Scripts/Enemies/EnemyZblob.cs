@@ -1,36 +1,29 @@
 ﻿using UnityEngine;
 using MyInterface;
-
-public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
+public class EnemyZblob : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
-    public int maxHealth = 50;          // Santé maximale de l'ennemi
+    public int maxHealth = 5;          // Santé maximale de l'ennemi
 
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
 
-    [Header("Collectable head")]
-    public GameObject cHead;
-
-    private AudioManager audioInstance;
-
     private int currentHealth;          // Santé actuelle (initialisée dans Start)
     private EnemyState currentState;
-    //private EnemyType currentEnemy;
+
     private Rigidbody2D enemyBody;
     private float moveSpeed;
 
     // infos (limites) écran
     private float screenLimitLeft;
     private float screenLimitRight;
-    private float screenLimitBottom;
     private float screenWidth;
     private float spriteSize;
 
     void Start()
     {
         // infos sur l'ennemi
-        //currentEnemy = EnemyType.Citizen;
+        //currentEnemy = EnemyType.Spearman;
         currentHealth = maxHealth;          // santé max par défaut
         currentState = EnemyState.Walking;  // "marche" par défaut
         moveSpeed = -2.0f;
@@ -41,11 +34,11 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         Camera mainCamera = Camera.main;
         screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
-        screenLimitBottom = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
         screenWidth = screenLimitRight - screenLimitLeft;
 
         // récupération de l'instance d'AudioManager
-        audioInstance = AudioManager.instance;
+        // le Zblob ne fait pas de bruit quand il meurt
+        //audioInstance = AudioManager.instance;
     }
     void Update()
     {
@@ -54,12 +47,7 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         {
             case EnemyState.Walking:
                 float currentPosX = transform.position.x; // enemyBody.position.x;
-                /*
-                float currentPosY = transform.position.y;
 
-                if (currentPosY < screenLimitBottom)
-                    transform.position = new Vector3(currentPosX, screenLimitBottom+spriteSize);
-                */
                 if (enemyBody != null && selfwalk)
                 {
                     // Calculer la direction tant que l'ennemi est dans l'écran
@@ -71,10 +59,10 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
                 }
 
                 // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
-                // Note : il ne drop pas de head dans ce cas là
                 if (currentPosX < screenLimitLeft)
                     Die();
-            break;
+
+                break;
 
             default:
             break;
@@ -88,44 +76,21 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
-            SoundOfDeath();
-            DropHead();
+            //SoundOfDeath();
+            //DropHead();
             Die();
         }
     }
 
     public void Shoot()
     {
-        // le citizen ne shoot pas
+        //yield return new WaitForSeconds(2f);
     }
     public void Fly()
     {
-        // le citizen ne fly pas
+        // le piquier ne vole/fly pas
     }
 
-    public void DropHead()
-    {
-        // pop de la tête collectable (bonus point de vie)
-        // en haut de l'ennemi pour avoir le temps de la collecter
-        Vector3 headPosition = new Vector3(transform.position.x - spriteSize, transform.position.y+spriteSize*3);
-        Instantiate(cHead, headPosition, cHead.transform.rotation);
-    }
-
-    public void SoundOfDeath()
-    {
-        // son de mort de l'ennemi
-        if (audioInstance != null)
-        {
-            Debug.Log("audio OK");
-            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.EnemyKill];
-            audioInstance.audioSource.Play();
-        }
-    }
-
-    public int getCurrentHealth()
-    {
-        return currentHealth;
-    }
     public void Die()
     {
         // Notify the score system
@@ -134,16 +99,43 @@ public class EnemyCitizen : MonoBehaviour, IEnemyInterface, IDamageable
         // Object pooling or repositioning logic
         float screenLimitTop = 0f;
         transform.position = new Vector3(screenLimitRight, screenLimitTop);
-        //Debug.Log($"slr={transform.position.x}, tpy={transform.position.y}");
     }
+
+    public void DropHead()
+    {
+
+    }
+    public int getCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (selfwalk)
             return;
 
-        if(collision.gameObject.CompareTag("Floor"))
+        // attachement au sol dès qu'il le touche
+        if (collision.gameObject.CompareTag("Floor"))
         {
-            transform.SetParent(collision.gameObject.transform);            
+            transform.SetParent(collision.gameObject.transform);
+        }
+
+        // collision avec le joueur
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var player = collision.gameObject.GetComponent<IDamageable>();
+            if (player != null)
+            {
+                Debug.Log("Player hit HALF LIFE damage !");
+                // get player health / 2
+                player.TakeDamage(player.getCurrentHealth() / 2);
+                Die();
+            }
+            else
+            {
+                Debug.LogError("Player is not IDamageable");
+            }
         }
     }
 }

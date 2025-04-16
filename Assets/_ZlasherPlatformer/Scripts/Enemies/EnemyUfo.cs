@@ -128,7 +128,10 @@ public class EnemyUfo : MonoBehaviour, IEnemyInterface, IDamageable
             audioInstance.audioSource.Play();
         }
     }
-
+    public int getCurrentHealth()
+    {
+        return 1;
+    }
     public void Die()
     {
         // Notify the score system

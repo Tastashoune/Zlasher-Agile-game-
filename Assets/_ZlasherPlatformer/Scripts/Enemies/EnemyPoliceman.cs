@@ -167,6 +167,10 @@ public class EnemyPoliceman : MonoBehaviour, IEnemyInterface, IDamageable
             audioInstance.audioSource.Play();
         }
     }
+    public int getCurrentHealth()
+    {
+        return currentHealth;
+    }
     public void Die()
     {
         // Notify the score system

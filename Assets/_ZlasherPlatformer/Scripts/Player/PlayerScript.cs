@@ -84,6 +84,10 @@ public class PlayerMovementScript : MonoBehaviour, IDamageable
         }
     }
 
+    public int getCurrentHealth()
+    {
+        return currentHealth;
+    }
     private void HandleMovement()
     {
         float horizontalInput = 0f;
