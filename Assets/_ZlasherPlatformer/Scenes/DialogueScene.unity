@@ -127,21 +127,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4062614286884178401, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 2642533577768006991, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1800
+      objectReference: {fileID: 0}
+    - target: {fileID: 2642533577768006991, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3413385162256388625, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3413385162256388625, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_fontSize
+      value: 108
+      objectReference: {fileID: 0}
+    - target: {fileID: 3413385162256388625, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_fontStyle
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3413385162256388625, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 108
       objectReference: {fileID: 0}
     - target: {fileID: 5250804435000868424, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5505897101966415387, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6471926656205237602, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7922987629243429468, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
       propertyPath: m_Pivot.x
@@ -226,33 +238,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6471926656205237602, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 52431038}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
---- !u!1 &52431037 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6471926656205237602, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+--- !u!225 &52431038 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8085595327845731694, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
   m_PrefabInstance: {fileID: 52431036}
   m_PrefabAsset: {fileID: 0}
---- !u!225 &52431038
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 52431037}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &52431039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4062614286884178401, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
   m_PrefabInstance: {fileID: 52431036}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &86998581 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3413385162256388625, guid: cfcc51d25f9aeb2428df5004694e74d0, type: 3}
+  m_PrefabInstance: {fileID: 52431036}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &236301535
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +668,7 @@ MonoBehaviour:
   necromancer: {fileID: 1238671515}
   playerMovement: {fileID: 0}
   musicManager: {fileID: 0}
+  fadeText: {fileID: 86998581}
   autoWalkDuration: 3
   walkSpeed: 30
   fadePanel: {fileID: 52431038}
