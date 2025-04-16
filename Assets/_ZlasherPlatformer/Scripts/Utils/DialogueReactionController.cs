@@ -39,7 +39,7 @@ public class DialogueReactionController : MonoBehaviour
             Vector2 targetPosition = rb.position + Vector2.right * walkSpeed * Time.deltaTime;
             rb.MovePosition(targetPosition);
         }
-        Debug.Log("Auto-walking... position: " + transform.position);
+        //Debug.Log("Auto-walking... position: " + transform.position);
     }
 
     private void OnEnable()
@@ -60,9 +60,9 @@ public class DialogueReactionController : MonoBehaviour
 
         playerAnimator.Play("Attack", 0, 0f);
 
-        StartCoroutine(DelayedDeath(0.5f));
+        StartCoroutine(DelayedDeath(0.2f));
 
-        StartCoroutine(AutoWalkThenFade(1.2f));
+        StartCoroutine(AutoWalkThenFade(1.0f));
     }
 
     private IEnumerator AutoWalkThenFade(float delay)

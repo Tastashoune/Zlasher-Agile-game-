@@ -651,7 +651,7 @@ MonoBehaviour:
   necromancer: {fileID: 1238671515}
   playerMovement: {fileID: 0}
   autoWalkDuration: 3
-  walkSpeed: 20
+  walkSpeed: 30
   fadePanel: {fileID: 52431038}
   fadeDuration: 1
 --- !u!114 &1516264468 stripped
