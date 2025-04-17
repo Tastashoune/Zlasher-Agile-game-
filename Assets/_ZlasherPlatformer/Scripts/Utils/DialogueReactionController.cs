@@ -1,10 +1,9 @@
 using System.Collections;
-using System.IO.Pipes;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI.Table;
+using DG.Tweening;
+
 
 public class DialogueReactionController : MonoBehaviour
 {
@@ -115,9 +114,9 @@ public class DialogueReactionController : MonoBehaviour
         }
         fadePanel.alpha = 1f;
 
-        StartCoroutine(ShowFadeTextSequence());
+        yield return StartCoroutine(ShowFadeTextSequence());
 
-        yield return new WaitForSeconds(delayAfterFade);
+        //yield return new WaitForSeconds(0.1f);
 
         SceneManager.LoadScene("MainScene");
 
@@ -127,31 +126,109 @@ public class DialogueReactionController : MonoBehaviour
 
     private IEnumerator ShowFadeTextSequence()
     {
-        if (fadeText == null) yield break;
-
-        // The lines to display
-        string[] lines = new string[]
         {
-        "Did that schmuck just call me a soulles husk?",
-        "I am FILLED with souls and I need more !",
-        "Now....."
-        };
+            if (fadeText == null) yield break;
 
-        foreach (string line in lines)
-        {
+            // Store original styles
+            float originalFontSize = fadeText.fontSize;
+            Color originalColor = fadeText.color;
+            Vector2 originalPosition = fadeText.rectTransform.anchoredPosition;
 
-            fadeText.text = line;
-
-            yield return StartCoroutine(FadeInText());
-
-            if(line == "Now.....")
+            // The lines to display
+            string[] lines = new string[]
             {
-                yield return StartCoroutine(PulseText(line));
+        "Raise me from the dead just to boss me around?",
+        "Man was begging to be first on the list",
+        "Now....."
+            };
+
+            foreach (string line in lines)
+            {
+                fadeText.text = line;
+
+                if (line == "Now.....")
+                {
+                    // Set special styles
+                    fadeText.fontSize = 140f;
+                    fadeText.color = Color.red;
+                    fadeText.rectTransform.anchoredPosition = Vector2.zero;
+
+                    yield return StartCoroutine(FadeInText());
+
+                    //Apply shake using DOTween                             ----------replaced by below for increased intensity
+
+                    //fadeText.rectTransform.DOShakeAnchorPos(
+                    //    duration: 4f,
+                    //    strength: new Vector2(10f, 5f),
+                    //    vibrato: 40,
+                    //    randomness: 90,
+                    //    snapping: false,
+                    //    fadeOut: true
+                    //);
+
+                    //yield return StartCoroutine(ShakeTextAccelerating(10f, 10f, 10f));  //no DOTWeen coroutine
+
+                    //yield return StartCoroutine(ShakeTextWithAcceleration()); // not dynaically procedural stages
+
+                    yield return StartCoroutine(ShakeTextWithAccelerationDynamic());
+
+                    yield break;
+                    //yield return new WaitForSeconds(2f);
+
+                    //yield return StartCoroutine(FadeOutText());
+
+                    //yield return StartCoroutine(FadeOutText());
+
+                    // Revert styles after
+                    fadeText.fontSize = originalFontSize;
+                    fadeText.color = originalColor;
+                    fadeText.rectTransform.anchoredPosition = originalPosition;
+                }
+                else
+                {
+                    // Standard display
+                    fadeText.fontSize = originalFontSize;
+                    fadeText.color = originalColor;
+                    fadeText.rectTransform.anchoredPosition = originalPosition;
+
+                    yield return StartCoroutine(FadeInText());
+                    yield return new WaitForSeconds(1.5f);
+                    yield return StartCoroutine(FadeOutText());
+                }
             }
 
-            yield return new WaitForSeconds(2f);
 
-            yield return StartCoroutine(FadeOutText());
+
+
+
+
+
+
+
+            //if (fadeText == null) yield break;
+
+            //// The lines to display
+            //string[] lines = new string[]
+            //{
+            //"Did that schmuck just call me a soulles husk?",
+            //"I am FILLED with souls and I need more !",
+            //"Now....."
+            //};
+
+            //foreach (string line in lines)
+            //{
+            //fadeText.text = line;
+
+            //yield return StartCoroutine(FadeInText());
+
+            //if(line == "Now.....")
+            //{
+            //    yield return StartCoroutine(PulseText(line));
+            //}
+
+            //yield return new WaitForSeconds(2f);
+
+            //yield return StartCoroutine(FadeOutText());
 
 
 
@@ -255,7 +332,7 @@ public class DialogueReactionController : MonoBehaviour
     private IEnumerator PulseText(string text)
     {
         Color originalColor = fadeText.color;
-        fadeText.color = Color.red;
+        fadeText.DOColor(Color.red, 0.3f);
 
         float pulseDuration = 0.8f;
         float pulseTimer = 0f;
@@ -275,5 +352,96 @@ public class DialogueReactionController : MonoBehaviour
         fadeText.color = originalColor;
     }
 
+    private IEnumerator ShakeTextAccelerating(float totalDuration, float maxFrequency, float shakeStrength)
+    {
+        float elapsed = 0f;
+        Vector2 originalPos = fadeText.rectTransform.anchoredPosition;
 
+        while (elapsed < totalDuration)
+        {
+            // Increase frequency over time
+            float progress = elapsed / totalDuration;
+            float frequency = Mathf.Lerp(2f, maxFrequency, progress); // from 2 Hz to maxFrequency
+
+            // Calculate how fast the shake updates (inversely related to frequency)
+            float timeStep = 1f / frequency;
+
+            // Random offset
+            float offsetX = Random.Range(-shakeStrength, shakeStrength);
+            float offsetY = Random.Range(-shakeStrength, shakeStrength);
+
+            fadeText.rectTransform.anchoredPosition = originalPos + new Vector2(offsetX, offsetY);
+
+            elapsed += timeStep;
+            yield return new WaitForSeconds(timeStep);
+        }
+
+        // Reset position
+        fadeText.rectTransform.anchoredPosition = originalPos;
+    }
+
+
+    private IEnumerator ShakeTextWithAcceleration()  //- ------DOTween version with chained shakes
+    {
+        Vector2 originalPos = fadeText.rectTransform.anchoredPosition;
+
+        // Define shake stages (duration, vibrato, strength)
+        var shakeStages = new (float duration, float strength, int vibrato)[]
+        {
+        (6f, 10f, 10),
+        (6f, 14f, 20),
+        (6f, 18f, 40),
+        (6f, 22f, 80)
+        };
+
+        foreach (var stage in shakeStages)
+        {
+            Tween shakeTween = fadeText.rectTransform.DOShakeAnchorPos(
+                duration: stage.duration,
+                strength: new Vector2(stage.strength, stage.strength),
+                vibrato: stage.vibrato,
+                randomness: 180,
+                snapping: false,
+                fadeOut: false
+            );
+
+            yield return shakeTween.WaitForCompletion();
+        }
+
+        // Reset to original position
+        fadeText.rectTransform.anchoredPosition = originalPos;
+    }
+
+    private IEnumerator ShakeTextWithAccelerationDynamic(         //Even mroe dotween customization
+    int stages = 8,
+    float baseDuration = 0.5f,
+    float baseStrength = 5f,
+    int baseVibrato = 5,
+    float strengthIncrement = 5f,
+    int vibratoIncrement = 20
+)
+    {
+        Vector2 originalPos = fadeText.rectTransform.anchoredPosition;
+
+        for (int i = 0; i < stages; i++)
+        {
+            float duration = baseDuration;
+            float strength = baseStrength + i * strengthIncrement;
+            int vibrato = baseVibrato + i * vibratoIncrement;
+
+            Tween shakeTween = fadeText.rectTransform.DOShakeAnchorPos(
+                duration: duration,
+                strength: new Vector2(strength, strength),
+                vibrato: vibrato,
+                randomness: 90,
+                snapping: false,
+                fadeOut: false
+            );
+
+            yield return shakeTween.WaitForCompletion();
+        }
+
+        // Reset position
+        fadeText.rectTransform.anchoredPosition = originalPos;
+    }
 }
