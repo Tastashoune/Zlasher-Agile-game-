@@ -3,59 +3,46 @@ using UnityEngine;
 
 public class EnemyZblobSpawner : MonoBehaviour
 {
-    public int nbMaxZblob = 1;
+    public int nbMaxZblob = 10; // Maximum number of Zblobs to spawn
     public GameObject enemyZblob;
-    public float minSpawnDelay = 0.5f; // Reduced for higher spawn rate
-    public float maxSpawnDelay = 1.5f; // Reduced for higher spawn rate
+    public float minSpawnDelay = 0.5f; // Minimum delay between spawns
+    public float maxSpawnDelay = 1.5f; // Maximum delay between spawns
 
+    private float screenLimitLeft;
     private float screenLimitRight;
-    private float groundLevelY = -5.5f; // Adjust this to match your ground level
-    private float gameStartTime;
+    private float screenLimitTop;
 
     void Start()
     {
         Camera mainCamera = Camera.main;
+
+        // Get screen limits
+        screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+        screenLimitTop = mainCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y;
 
-        // Set ground level (adjust as needed)
-        groundLevelY = mainCamera.ViewportToWorldPoint(new Vector3(0, 0.1f, 0)).y;
-
-        gameStartTime = Time.time;
-
-        StartCoroutine(EnemyPop());
+        StartCoroutine(SpawnZblobs());
     }
 
-    public IEnumerator EnemyPop()
+    private IEnumerator SpawnZblobs()
     {
-        SpawnZblob();
-        yield return new WaitForSeconds(GetDynamicDelay());
+        for (int i = 0; i < nbMaxZblob; i++)
+        {
+            SpawnZblob();
+
+            // Wait for a random delay before spawning the next Zblob
+            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            yield return new WaitForSeconds(delay);
+        }
     }
 
     private void SpawnZblob()
     {
-        // Spawn the enemy at ground level
-        float spriteSize = enemyZblob.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
-        Vector3 posZblob = new Vector3(screenLimitRight + spriteSize / 2, groundLevelY, 0f);
+        // Generate a random X position within the camera's horizontal limits
+        float randomX = Random.Range(screenLimitLeft, screenLimitRight);
 
-        Instantiate(enemyZblob, posZblob, Quaternion.identity);
-    }
-
-    private float GetDynamicDelay()
-    {
-        float elapsedTime = Time.time - gameStartTime;
-
-        // Adjust delay dynamically to ensure high spawn rate early and late
-        if (elapsedTime < 30f) // Early game
-        {
-            return Random.Range(minSpawnDelay, maxSpawnDelay);
-        }
-        else if (elapsedTime > 120f) // Late game
-        {
-            return Random.Range(minSpawnDelay * 0.8f, maxSpawnDelay * 0.8f); // Faster spawn late game
-        }
-        else // Mid game
-        {
-            return Random.Range(minSpawnDelay * 1.2f, maxSpawnDelay * 1.2f); // Slightly slower spawn mid game
-        }
+        // Spawn the Zblob at the top of the screen with the random X position
+        Vector3 spawnPosition = new Vector3(randomX, screenLimitTop, 0f);
+        Instantiate(enemyZblob, spawnPosition, Quaternion.identity);
     }
 }

@@ -3,92 +3,137 @@ using MyInterface;
 public class EnemyZblob : MonoBehaviour, IEnemyInterface, IDamageable
 {
     [Header("Health setting")]
-    public int maxHealth = 5;          // Santé maximale de l'ennemi
+    public int maxHealth = 5; // Maximum health of the enemy
 
     [Header("Self walk (false by default)")]
     public bool selfwalk = false;
 
-    private int currentHealth;          // Santé actuelle (initialisée dans Start)
+    private int currentHealth; // Current health of the enemy
     private EnemyState currentState;
 
     private Rigidbody2D enemyBody;
-    private float moveSpeed;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D enemyCollider;
+    private Animator animator; // Reference to the Animator component
 
-    // infos (limites) écran
-    private float screenLimitLeft;
-    private float screenLimitRight;
-    private float screenWidth;
-    private float spriteSize;
+    // Movement with the ground
+    private GameObject levelGenerator;
+    private Vector3 groundLastPosition;
+    private bool isOnGround = false; // Tracks if the Zblob is on the ground
 
     void Start()
     {
-        // infos sur l'ennemi
-        //currentEnemy = EnemyType.Spearman;
-        currentHealth = maxHealth;          // santé max par défaut
-        currentState = EnemyState.Walking;  // "marche" par défaut
-        moveSpeed = -2.0f;
+        // Initialize enemy properties
+        currentHealth = maxHealth;
+        currentState = EnemyState.Walking;
         enemyBody = GetComponent<Rigidbody2D>();
-        spriteSize = GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyCollider = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
 
-        // limite gauche écran et largeur totale
-        Camera mainCamera = Camera.main;
-        screenLimitLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
-        screenLimitRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
-        screenWidth = screenLimitRight - screenLimitLeft;
-
-        // récupération de l'instance d'AudioManager
-        // le Zblob ne fait pas de bruit quand il meurt
-        //audioInstance = AudioManager.instance;
-    }
-    void Update()
-    {
-        // switch ACTIONS/COMPORTEMENTS
-        switch (currentState)
+        // Ensure the Animator component exists
+        if (animator == null)
         {
-            case EnemyState.Walking:
-                float currentPosX = transform.position.x; // enemyBody.position.x;
+            Debug.LogError("Animator component is missing on EnemyZblob!");
+        }
 
-                if (enemyBody != null && selfwalk)
-                {
-                    // Calculer la direction tant que l'ennemi est dans l'écran
-                    if (currentPosX > screenLimitLeft + spriteSize)
-                    {
-                        Vector2 direction = new Vector2(moveSpeed, enemyBody.linearVelocity.y);
-                        enemyBody.linearVelocity = direction;
-                    }
-                }
+        // Find the LevelGenerator object
+        levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator");
+        if (levelGenerator != null)
+        {
+            groundLastPosition = levelGenerator.transform.position;
+        }
+        else
+        {
+            Debug.LogError("LevelGenerator object not found! Ensure it has the correct tag.");
+        }
 
-                // destroy/object pooling si l'ennemi dépasse la gauche de l'écran
-                if (currentPosX < screenLimitLeft)
-                    Die();
-
-                break;
-
-            default:
-            break;
+        // Start with the BlobDrop animation
+        if (animator != null)
+        {
+            animator.SetTrigger("BlobDrop");
         }
     }
+
+    void Update()
+    {
+        if (isOnGround && levelGenerator != null)
+        {
+            // Move with the LevelGenerator
+            Vector3 groundDelta = levelGenerator.transform.position - groundLastPosition;
+            transform.position += groundDelta;
+            groundLastPosition = levelGenerator.transform.position;
+        }
+    }
+
     public void TakeDamage(int damage)
     {
-        // Réduire la santé par le montant de dégâts
         currentHealth -= damage;
 
-        // Vérifier si l'ennemi est mort (santé ≤ 0)
         if (currentHealth <= 0)
         {
-            //SoundOfDeath();
-            //DropHead();
             Die();
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Attach to the LevelGenerator when it touches it
+        if (collision.gameObject.CompareTag("LevelGenerator") && !isOnGround)
+        {
+            Debug.Log("Zblob touched the LevelGenerator!");
+            isOnGround = true;
+            enemyBody.isKinematic = true; // Stop physics-based movement
+            enemyBody.linearVelocity = Vector2.zero; // Stop any remaining velocity
+            groundLastPosition = levelGenerator.transform.position; // Sync with LevelGenerator's position
+
+            // Play the BlobFlat animation
+            if (animator != null)
+            {
+                animator.SetTrigger("BlobFlat");
+                Debug.Log("Flatten animation triggered.");
+            }
+        }
+
+        // Deal 50% of the player's current health as damage
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var player = collision.gameObject.GetComponent<IDamageable>();
+            if (player != null)
+            {
+                int playerCurrentHealth = player.getCurrentHealth();
+                int damage = Mathf.CeilToInt(playerCurrentHealth * 0.5f); // Calculate 50% damage
+                Debug.Log($"Player hit by Zblob! Dealing {damage} damage.");
+                player.TakeDamage(damage);
+                Die();
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Detach from the LevelGenerator when leaving it
+        if (collision.gameObject.CompareTag("LevelGenerator") && isOnGround)
+        {
+            isOnGround = false;
+            enemyBody.isKinematic = false; // Re-enable physics-based movement
+        }
+    }
+
+    private void OnBecameInvisible()
+    {
+        // Destroy the Zblob when it goes off-screen
+        Destroy(gameObject);
+    }
+
     public void Shoot()
     {
-        //yield return new WaitForSeconds(2f);
+        // Zblob does not shoot
     }
+
     public void Fly()
     {
-        // le piquier ne vole/fly pas
+        // Zblob does not fly
     }
 
     public void Die()
@@ -96,46 +141,17 @@ public class EnemyZblob : MonoBehaviour, IEnemyInterface, IDamageable
         // Notify the score system
         GetComponent<EnemyDeathNotifier>()?.NotifyDeath();
 
-        // Object pooling or repositioning logic
-        float screenLimitTop = 0f;
-        transform.position = new Vector3(screenLimitRight, screenLimitTop);
+        // Destroy the Zblob
+        Destroy(gameObject);
     }
 
     public void DropHead()
     {
-
+        // Zblob does not drop a head
     }
+
     public int getCurrentHealth()
     {
         return currentHealth;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (selfwalk)
-            return;
-
-        // attachement au sol dès qu'il le touche
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            transform.SetParent(collision.gameObject.transform);
-        }
-
-        // collision avec le joueur
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            var player = collision.gameObject.GetComponent<IDamageable>();
-            if (player != null)
-            {
-                Debug.Log("Player hit HALF LIFE damage !");
-                // get player health / 2
-                player.TakeDamage(player.getCurrentHealth() / 2);
-                Die();
-            }
-            else
-            {
-                Debug.LogError("Player is not IDamageable");
-            }
-        }
     }
 }
