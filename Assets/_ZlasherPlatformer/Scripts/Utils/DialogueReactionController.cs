@@ -140,7 +140,7 @@ public class DialogueReactionController : MonoBehaviour
             // The lines to display
             string[] lines = new string[]
             {
-        "Raise me from the dead just to boss me around?",
+        "Ahhahahahahah what an idiot! Raise and control me?",
         "Man was begging to be first on the list",
         "Now....."
             };
@@ -173,17 +173,17 @@ public class DialogueReactionController : MonoBehaviour
 
                     //yield return StartCoroutine(ShakeTextWithAcceleration()); // not dynaically procedural stages
 
-                    if (bloodFX != null)
-                    {
-                        bloodFX.SetActive(true);
+                    //if (bloodFX != null)
+                    //{
+                    //    bloodFX.SetActive(true);
 
-                        // Optional: Restart the animation from the beginning
-                        Animator anim = bloodFX.GetComponent<Animator>();
-                        if (anim != null)
-                        {
-                            anim.Play("BloodFXAnim", 0, 0f); // Replace with your actual clip name
-                        }
-                    }
+                    //    // Optional: Restart the animation from the beginning
+                    //    Animator anim = bloodFX.GetComponent<Animator>();
+                    //    if (anim != null)
+                    //    {
+                    //        anim.Play("BloodFXAnim", 0, 0f); // Replace with your actual clip name
+                    //    }
+                    //}
 
                     yield return StartCoroutine(ShakeTextWithAccelerationDynamic());
                     
