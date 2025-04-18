@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Coffee.UIExtensions;
 
 
 public class DialogueReactionController : MonoBehaviour
@@ -13,6 +14,8 @@ public class DialogueReactionController : MonoBehaviour
     public PlayerMovementScript playerMovement;
     public MusicManager musicManager;
     public TextMeshProUGUI fadeText;
+    public GameObject bloodDripPrefab;
+    public GameObject bloodFX;
 
     public float autoWalkDuration = 2f;
     public float walkSpeed = 2f;
@@ -170,14 +173,27 @@ public class DialogueReactionController : MonoBehaviour
 
                     //yield return StartCoroutine(ShakeTextWithAcceleration()); // not dynaically procedural stages
 
+                    if (bloodFX != null)
+                    {
+                        bloodFX.SetActive(true);
+
+                        // Optional: Restart the animation from the beginning
+                        Animator anim = bloodFX.GetComponent<Animator>();
+                        if (anim != null)
+                        {
+                            anim.Play("BloodFXAnim", 0, 0f); // Replace with your actual clip name
+                        }
+                    }
+
                     yield return StartCoroutine(ShakeTextWithAccelerationDynamic());
+                    
 
                     yield break;
                     //yield return new WaitForSeconds(2f);
 
                     //yield return StartCoroutine(FadeOutText());
 
-                    //yield return StartCoroutine(FadeOutText());
+
 
                     // Revert styles after
                     fadeText.fontSize = originalFontSize;
@@ -441,7 +457,177 @@ public class DialogueReactionController : MonoBehaviour
             yield return shakeTween.WaitForCompletion();
         }
 
+
         // Reset position
         fadeText.rectTransform.anchoredPosition = originalPos;
     }
+
+    //private void SpawnBloodDrip()
+    //{
+    //    // 1. Find the FX canvas
+    //    Canvas fxCanvas = GameObject.Find("FXCanvas")?.GetComponent<Canvas>();
+    //    if (fxCanvas == null)
+    //    {
+    //        Debug.LogWarning("FXCanvas not found in the scene!");
+    //        return;
+    //    }
+
+    //    // 2. Instantiate the particle effect prefab
+    //    GameObject bloodTrail = Instantiate(bloodDripPrefab);
+
+    //    // 3. Set it as a child of the canvas WITHOUT keeping world position
+    //    bloodTrail.transform.SetParent(fxCanvas.transform, worldPositionStays: false);
+
+    //    // 4. Get the canvas's RectTransform to calculate top-center
+    //    RectTransform canvasRect = fxCanvas.GetComponent<RectTransform>();
+    //    Vector2 topCenter = new Vector2(0f, canvasRect.rect.height / 2f); // (0, height/2) = top center
+
+    //    // 5. Position and scale the particle properly in UI space
+    //    RectTransform particleRect = bloodTrail.GetComponent<RectTransform>();
+    //    if (particleRect != null)
+    //    {
+    //        particleRect.anchoredPosition = topCenter;        // Align to top-center
+    //        particleRect.localScale = Vector3.one;            // Make sure it's normal size
+    //        particleRect.localRotation = Quaternion.identity; // Reset rotation
+    //    }
+
+    //    // 6. OPTIONAL: Make sure it's rendering on top
+    //    UIParticle uiParticle = bloodTrail.GetComponent<UIParticle>();
+    //    if (uiParticle == null)
+    //    {
+    //        Debug.LogWarning("Your particle prefab is missing a UIParticle component!");
+    //    }
+
+
+
+        //----------------------------------good position in viewport------------vvvvvvvvv---------------------------
+        //    {
+        //        Canvas fxCanvas = GameObject.Find("FXCanvas")?.GetComponent<Canvas>();
+        //        if (fxCanvas == null)
+        //        {
+        //            Debug.LogWarning("FXCanvas not found in the scene!");
+        //            return;
+        //        }
+
+        //        // 1. Choose a target position (world or UI element)
+        //        Vector3 worldPosition = new Vector3(0, 20, 0); // Example world pos (you can target the player, or center screen)
+
+        //        // Convert world to screen point
+        //        Vector3 screenPoint = Camera.main.WorldToScreenPoint(worldPosition);
+
+        //        // Convert screen point to canvas-local position
+        //        Vector2 anchoredPos;
+        //        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        //            fxCanvas.transform as RectTransform,
+        //            screenPoint,
+        //            fxCanvas.worldCamera,
+        //            out anchoredPos
+        //        );
+
+        //        // 2. Instantiate the prefab
+        //        GameObject bloodTrail = Instantiate(bloodDripPrefab);
+
+        //        // 3. Parent it to canvas (don't keep world pos!)
+        //        bloodTrail.transform.SetParent(fxCanvas.transform, worldPositionStays: false);
+
+        //        // 4. Set its anchored position to match the canvas
+        //        RectTransform rect = bloodTrail.GetComponent<RectTransform>();
+        //        if (rect != null)
+        //        {
+        //            rect.anchoredPosition = anchoredPos;
+        //            rect.localScale = Vector3.one; // Fix scaling issues
+        //            rect.localRotation = Quaternion.identity;
+        //        }
+        //        else
+        //        {
+        //            // Fallback if no RectTransform
+        //            bloodTrail.transform.localPosition = anchoredPos;
+        //            bloodTrail.transform.localScale = Vector3.one;
+        //            bloodTrail.transform.localRotation = Quaternion.identity;
+        //        }
+
+        //        // Optional: set sorting layer
+        //        var renderer = bloodTrail.GetComponent<ParticleSystemRenderer>();
+        //        if (renderer != null)
+        //        {
+        //            renderer.sortingLayerName = "Front";
+        //            renderer.sortingOrder = 500;
+        //        }
+        //    }
+        //-------------------------------------------------------------------- good position in viewport-----------------------------^^^^^^^^
+        //{
+        //    Canvas fxCanvas = GameObject.Find("FXCanvas")?.GetComponent<Canvas>();
+        //    if (fxCanvas == null)
+        //    {
+        //        Debug.LogWarning("FXCanvas not found in the scene!");
+        //        return;
+        //    }
+
+        //    // Instantiate as a child of canvas
+        //    GameObject bloodTrail = Instantiate(bloodDripPrefab, fxCanvas.transform);
+
+        //    // Reset transform
+        //    bloodTrail.transform.localPosition = Vector3.zero;
+        //    bloodTrail.transform.localScale = Vector3.one;
+
+        //    // (Optional) Align with center of screen
+        //    RectTransform rect = bloodTrail.GetComponent<RectTransform>();
+        //    if (rect != null)
+        //    {
+        //        rect.anchoredPosition = Vector2.zero;
+        //    }
+        //}
+        //Canvas fxCanvas = GameObject.Find("FXCanvas")?.GetComponent<Canvas>();
+        //if(fxCanvas == null)
+        //{
+        //    Debug.LogWarning("FXCanvas not found in the scene!");
+        //    return;
+        //}
+
+        //Vector3 spawnPosition = new Vector3(0, 0, 0);
+        //GameObject bloodTrail = Instantiate(bloodDripPrefab, spawnPosition, Quaternion.identity);
+
+        //bloodTrail.transform.SetParent(fxCanvas.transform, false);
+
+        //bloodTrail.transform.localPosition = new Vector3(0f, 20f, 0f);
+
+        //var renderer = bloodTrail.GetComponent<ParticleSystemRenderer>();
+        //if(renderer != null)
+        //{
+        //    renderer.sortingLayerName = "Front";
+        //    renderer.sortingOrder = 500;
+        //}
+
+
+
+        //if (bloodDripPrefab == null) return;
+
+
+        //GameObject bloodTrail = Instantiate(bloodDripPrefab);
+
+        //bloodTrail.transform.position = new Vector3(0f, 20f, -1f);
+
+        //var renderer = bloodTrail.GetComponent<ParticleSystemRenderer>();
+        //if (renderer != null)
+        //{
+        //    renderer.sortingLayerName = "BloodFX";
+        //    renderer.sortingOrder = 100;
+        //}
+
+
+        //Vector3 screenTopCenter = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 1f, Camera.main.nearClipPlane + 5f));
+        //screenTopCenter.z = 0f;
+        //GameObject bloodTrail = Instantiate(bloodDripPrefab, screenTopCenter, Quaternion.identity);
+
+        //Vector3 spawnPosition = new Vector3(0, 5, 0);
+        //GameObject bloodTrail = Instantiate(bloodDripPrefab, spawnPosition, Quaternion.identity);
+        //bloodTrail.transform.SetParent(this.transform, false);
+
+    //}
+
+    //public void OnParticleSystemStopped()
+    //{
+    //    Destroy(gameObject);
+    //}
+
 }
