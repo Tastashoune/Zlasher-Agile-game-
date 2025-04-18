@@ -79,9 +79,9 @@ public class EnemyZblob : MonoBehaviour, IEnemyInterface, IDamageable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Attach to the LevelGenerator when it touches it
-        if (collision.gameObject.CompareTag("LevelGenerator") && !isOnGround)
+        if (collision.gameObject.CompareTag("Floor") && !isOnGround)
         {
-            Debug.Log("Zblob touched the LevelGenerator!");
+            Debug.Log("Zblob touched the Floor!");
             isOnGround = true;
             enemyBody.isKinematic = true; // Stop physics-based movement
             enemyBody.linearVelocity = Vector2.zero; // Stop any remaining velocity
@@ -93,6 +93,8 @@ public class EnemyZblob : MonoBehaviour, IEnemyInterface, IDamageable
                 animator.SetTrigger("BlobFlat");
                 Debug.Log("Flatten animation triggered.");
             }
+            Debug.Log(collision.gameObject);
+            transform.SetParent(collision.gameObject.transform);
         }
 
         // Deal 50% of the player's current health as damage
