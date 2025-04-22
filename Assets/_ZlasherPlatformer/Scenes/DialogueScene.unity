@@ -878,7 +878,7 @@ PrefabInstance:
       objectReference: {fileID: 1288114778}
     - target: {fileID: 9168229802428959448, guid: 1f02ff7803d9faf43b8d9ece01922537, type: 3}
       propertyPath: walkSpeed
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9168229802428959448, guid: 1f02ff7803d9faf43b8d9ece01922537, type: 3}
       propertyPath: backwardDuration

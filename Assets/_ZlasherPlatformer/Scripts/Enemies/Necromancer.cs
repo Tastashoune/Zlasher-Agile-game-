@@ -22,7 +22,11 @@ public class Necromancer : MonoBehaviour, IInteractable
 
    public void Die()
     {
-        Destroy(gameObject, 2f);
+        gameObject.SetActive(false);
     }
-
+    public void ResetNecromancer()
+    {
+        gameObject.SetActive(true);
+        
+    }
 }
